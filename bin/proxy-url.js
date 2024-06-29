@@ -2,6 +2,7 @@
 
 const { join } = require('path')
 const { writeFileSync, existsSync, readFileSync } = require('fs-extra')
+const os = require('os')
 const chalk = require('chalk')
 
 const proxyConf = join(os.homedir(), '.proxy-cmd')
