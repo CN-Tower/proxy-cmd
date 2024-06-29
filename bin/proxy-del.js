@@ -6,15 +6,12 @@ const { join } = require('path')
 const os = require('os')
 const chalk = require('chalk')
 
+// Windows
 if (os.platform() === 'win32') {
-  if (isGlobal) {
-    execSync(`setx HTTP_PROXY "" /M`)
-    execSync(`setx HTTPS_PROXY "" /M`)
-  } else {
-    execSync(`setx HTTP_PROXY ""`)
-    execSync(`setx HTTPS_PROXY ""`)
-  }
+  execSync(`setx HTTP_PROXY " " /M`)
+  execSync(`setx HTTPS_PROXY " " /M`)
 }
+// MacOS
 else if (os.platform() === 'darwin') {
   const rcFile = join(process.HOME, '.zshrc')
   ensureFileSync(rcFile)
