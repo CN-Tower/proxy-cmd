@@ -14,7 +14,7 @@ if (x === 'proxy-url') {
 
 if (url && url.match(/^https?:\/\/[\d.:]+$/)) {
   writeFileSync(proxyConf, url)
-  console.log(`Proxy url set to: ${chalk.cyan(purl)}`)
+  console.log(`Proxy url set to: ${chalk.cyan(url)}`)
 } else {
   let purl = ''
   if (existsSync(proxyConf)) {
