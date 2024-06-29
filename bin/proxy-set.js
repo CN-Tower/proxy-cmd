@@ -12,8 +12,12 @@ const proxyUrl = readFileSync(proxyConf, 'utf-8')
 if (proxyUrl) {
   // Windows
   if (os.platform() === 'win32') {
-    execSync(`setx HTTP_PROXY "${proxyUrl}" /M`)
-    execSync(`setx HTTPS_PROXY "${proxyUrl}" /M`)
+    try {
+      execSync(`setx HTTP_PROXY "${proxyUrl}" /M`, { stdio: 'inherit' })
+    } catch {}
+    try {
+      execSync(`setx HTTPS_PROXY "${proxyUrl}" /M`, { stdio: 'inherit' })
+    } catch {}
   }
   // MacOS
   else if (os.platform() === 'darwin') {
@@ -25,7 +29,7 @@ if (proxyUrl) {
     } else {
       writeFileSync(rcFile, `${rc}\nHTTP_PROXY="${proxyUrl}"\nHTTP_PROXY="${proxyUrl}"`)
     }
-    execSync(`source ${rcFile}`)
+    execSync(`source ${rcFile}`, { stdio: 'inherit' })
   }
   console.log(chalk.green(`Success set proxy env to: ${proxyUrl}`))
 } else {
