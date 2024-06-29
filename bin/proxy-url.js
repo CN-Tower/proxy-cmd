@@ -12,7 +12,6 @@ let [ x, cmd, url ] = process.argv
 if (x === 'proxy-url') {
   url = cmd
 }
-
 if (url && url.match(/^https?:\/\/[\d.:]+$/)) {
   writeFileSync(proxyConf, url)
   console.log(`Proxy url set to: ${chalk.cyan(url)}`)

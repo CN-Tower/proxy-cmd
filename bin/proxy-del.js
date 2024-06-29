@@ -8,8 +8,18 @@ const chalk = require('chalk')
 
 // Windows
 if (os.platform() === 'win32') {
-  execSync(`setx HTTP_PROXY " " /M`)
-  execSync(`setx HTTPS_PROXY " " /M`)
+  try {
+    execSync(`REG delete HKCU\\Environment /F /V HTTP_PROXY`)
+  } catch {}
+  try {
+    execSync(`REG delete "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" /F /V HTTP_PROXY`)
+  } catch {}
+  try {
+    execSync(`REG delete HKCU\\Environment /F /V HTTPS_PROXY`)
+  } catch {}
+  try {
+    execSync(`REG delete "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" /F /V HTTPS_PROXY`)
+  } catch {}
 }
 // MacOS
 else if (os.platform() === 'darwin') {
