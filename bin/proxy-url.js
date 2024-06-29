@@ -4,7 +4,7 @@ const { join } = require('path')
 const { writeFileSync, existsSync, readFileSync } = require('fs-extra')
 const chalk = require('chalk')
 
-const proxyConf = join(process.env.HOME, '.proxy-cmd')
+const proxyConf = join(os.homedir(), '.proxy-cmd')
 
 let [ x, cmd, url ] = process.argv
 

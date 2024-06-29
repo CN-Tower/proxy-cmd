@@ -1,6 +1,6 @@
 {
   "name": "proxy-cmd",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "bin": {
     "proxy-cmd": "bin/index.js",
@@ -17,8 +17,6 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^8.3.0",
-    "dotenv": "^16.0.3",
-    "fs-extra": "^10.1.0",
-    "glob": "^7.1.7"
+    "fs-extra": "^10.1.0"
   }
 }

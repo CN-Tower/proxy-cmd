@@ -6,7 +6,7 @@ const { join } = require('path')
 const os = require('os')
 const chalk = require('chalk')
 
-const proxyConf = join(process.env.HOME, '.proxy-cmd')
+const proxyConf = join(os.homedir(), '.proxy-cmd')
 const proxyUrl = readFileSync(proxyConf, 'utf-8')
 
 if (proxyUrl) {
