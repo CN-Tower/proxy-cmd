@@ -35,12 +35,12 @@ if (os.platform() === 'win32') {
     execSync(`setx PROXY_URL "${purl}" /M`, { stdio: 'inherit' })
   } catch {}
   // Set alias
-  const alaisBat = join(proxyCmd, 'alais.bat')
-  if (existsSync(alaisBat)) removeSync(alaisBat)
-  copyFileSync(join(__dirname, 'alais.bat'), alaisBat)
+  const aliasBat  = join(proxyCmd, 'alias.bat')
+  if (existsSync(aliasBat )) removeSync(aliasBat )
+  copyFileSync(join(__dirname, 'alias.bat'), aliasBat )
   try {
     execSync(
-      `REG add "HKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor" /v AutoRun /t REG_SZ /d "${alaisBat}" /f`,
+      `REG add "HKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor" /v AutoRun /t REG_SZ /d "${aliasBat }" /f`,
       { stdio: 'inherit' }
     )
   } catch {}

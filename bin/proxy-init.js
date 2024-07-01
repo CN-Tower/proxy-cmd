@@ -30,12 +30,12 @@ if (os_1.default.platform() === 'win32') {
     }
     catch { }
     // Set alias
-    const alaisBat = (0, path_1.join)(proxyCmd, 'alais.bat');
-    if ((0, fs_extra_1.existsSync)(alaisBat))
-        (0, fs_extra_1.removeSync)(alaisBat);
-    (0, fs_extra_1.copyFileSync)((0, path_1.join)(__dirname, 'alais.bat'), alaisBat);
+    const aliasBat = (0, path_1.join)(proxyCmd, 'alias.bat');
+    if ((0, fs_extra_1.existsSync)(aliasBat))
+        (0, fs_extra_1.removeSync)(aliasBat);
+    (0, fs_extra_1.copyFileSync)((0, path_1.join)(__dirname, 'alias.bat'), aliasBat);
     try {
-        (0, child_process_1.execSync)(`REG add "HKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor" /v AutoRun /t REG_SZ /d "${alaisBat}" /f`, { stdio: 'inherit' });
+        (0, child_process_1.execSync)(`REG add "HKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor" /v AutoRun /t REG_SZ /d "${aliasBat}" /f`, { stdio: 'inherit' });
     }
     catch { }
 }
