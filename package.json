@@ -1,6 +1,6 @@
 {
   "name": "proxy-cmd",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "index.js",
   "bin": {
     "proxy-cmd": "bin/index.js",
@@ -23,7 +23,21 @@
   "homepage": "https://github.com/CN-Tower/proxy-cmd#readme",
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Toggle proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.",
+  "keywords": [
+    "proxy",
+    "proxy-url",
+    "proxy-set",
+    "proxy-del",
+    "proxy-on",
+    "proxy-off",
+    "proxy-cmd",
+    "proxy-cli",
+    "proxy-switch",
+    "proxy-env",
+    "http_proxy",
+    "https_proxy"
+  ],
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^8.3.0",

@@ -1,6 +1,6 @@
 # PROXY-CMD
 
-Switch proxy environments in command line.
+Switch proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.
 
 ## Install
 
@@ -11,37 +11,43 @@ npm i -g proxy-cmd
 ## How to use
 
 ### Windows
+
 Press `Win + R`, enter `cmd`, then press `Ctrl + Shift + Enter`, open cmd as administrator
 
 ```bash
 # Init proxy
-proxy-init 'https://127.0.0.1:7890'
+proxy-init 'http://127.0.0.1:7890'
 
 # Show proxy target url
 proxy-url
 
 # Change proxy target url
-proxy-url 'https://127.0.0.1:8234'
+proxy-url 'http://127.0.0.1:8234'
 
 # Set proxy env global, needs administrator privileges
+# HTTP_PROXY=https://127.0.0.1:8234
+# HTTPS_PROXY=https://127.0.0.1:8234
 proxy-set
 
 # Unset proxy env global, needs administrator privileges
 proxy-del
 
-# Set proxy env in active terminal
+# Set proxy env in current terminal
+# HTTP_PROXY=https://127.0.0.1:8234
+# HTTPS_PROXY=https://127.0.0.1:8234
 proxy-on
 
-# Unset proxy env in active terminal
+# Unset proxy env in current terminal
 proxy-off
 ```
 
 ### MacOS
+
 Open terminal
 
 ```bash
 # Init proxy
-sudo proxy-init 'https://127.0.0.1:7890'
+sudo proxy-init 'http://127.0.0.1:7890'
 
 # Enable proxy-cmd alias
 sudo source ~/.zshrc
@@ -50,17 +56,21 @@ sudo source ~/.zshrc
 sudo proxy-url
 
 # Change proxy target url
-sudo proxy-url 'https://127.0.0.1:8234'
+sudo proxy-url 'http://127.0.0.1:8234'
 
 # Set proxy env global, needs administrator privileges
+# HTTP_PROXY=https://127.0.0.1:8234
+# HTTPS_PROXY=https://127.0.0.1:8234
 sudo proxy-set
 
 # Unset proxy env global, needs administrator privileges
 sudo proxy-del
 
-# Set proxy env in active terminal, should source .zshrc first
+# Set proxy env in current terminal, should source .zshrc first
+# HTTP_PROXY=https://127.0.0.1:8234
+# HTTPS_PROXY=https://127.0.0.1:8234
 proxy-on
 
-# Unset proxy env in active terminal, should source .zshrc first
+# Unset proxy env in current terminal, should source .zshrc first
 proxy-off
 ```
