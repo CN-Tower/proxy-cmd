@@ -25,16 +25,16 @@ proxy-url
 proxy-url 'http://127.0.0.1:8234'
 
 # Set proxy env global, needs administrator privileges
-# HTTP_PROXY=https://127.0.0.1:8234
-# HTTPS_PROXY=https://127.0.0.1:8234
+# HTTP_PROXY=http://127.0.0.1:8234
+# HTTPS_PROXY=http://127.0.0.1:8234
 proxy-set
 
 # Unset proxy env global, needs administrator privileges
 proxy-del
 
 # Set proxy env in current terminal
-# HTTP_PROXY=https://127.0.0.1:8234
-# HTTPS_PROXY=https://127.0.0.1:8234
+# HTTP_PROXY=http://127.0.0.1:8234
+# HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
 # Unset proxy env in current terminal
@@ -59,16 +59,16 @@ sudo proxy-url
 sudo proxy-url 'http://127.0.0.1:8234'
 
 # Set proxy env global, needs administrator privileges
-# HTTP_PROXY=https://127.0.0.1:8234
-# HTTPS_PROXY=https://127.0.0.1:8234
+# HTTP_PROXY=http://127.0.0.1:8234
+# HTTPS_PROXY=http://127.0.0.1:8234
 sudo proxy-set
 
 # Unset proxy env global, needs administrator privileges
 sudo proxy-del
 
 # Set proxy env in current terminal, should source .zshrc first
-# HTTP_PROXY=https://127.0.0.1:8234
-# HTTPS_PROXY=https://127.0.0.1:8234
+# HTTP_PROXY=http://127.0.0.1:8234
+# HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
 # Unset proxy env in current terminal, should source .zshrc first
