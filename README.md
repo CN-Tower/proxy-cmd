@@ -1,6 +1,6 @@
 # PROXY-CMD
 
-Switch proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.
+Toggle proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.
 
 ## Install
 
