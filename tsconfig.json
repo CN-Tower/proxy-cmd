@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./bin",
+    "strict": true,
+    "strictNullChecks": true,
+    "moduleResolution": "Node",
+    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "lib": ["dom", "es2015"],
+    "declaration": true,
+    "sourceMap": false,
+    "target": "ESNext",
+    "module": "CommonJS",
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "exclude": ["node_modules", "dist"]
+}

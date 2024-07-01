@@ -14,26 +14,53 @@ npm i -g proxy-cmd
 Press `Win + R`, enter `cmd`, then press `Ctrl + Shift + Enter`, open cmd as administrator
 
 ```bash
-# Set proxy target url
-proxy-url 'https://127.0.0.1:7890'
+# Init proxy
+proxy-init 'https://127.0.0.1:7890'
 
-# Set proxy env
+# Show proxy target url
+proxy-url
+
+# Change proxy target url
+proxy-url 'https://127.0.0.1:8888'
+
+# Set proxy env global, needs administrator privileges
 proxy-set
 
-# Del proxy env
-proxy-end
+# Unset proxy env global, needs administrator privileges
+proxy-del
+
+# Set proxy env in active terminal
+proxy-on
+
+# Unset proxy env in active terminal
+proxy-off
 ```
 
 ### MacOS
 Open terminal
 
 ```bash
-# Set proxy target url
-sudo proxy-url 'https://127.0.0.1:7890'
+# Init proxy
+sudo proxy-init 'https://127.0.0.1:7890'
 
-# Set proxy env
+# Enable proxy-cmd alias
+sudo source ~/.zshrc
+
+# Show proxy target url
+sudo proxy-url
+
+# Change proxy target url
+sudo proxy-url 'https://127.0.0.1:8888'
+
+# Set proxy env global, needs administrator privileges
 sudo proxy-set
 
-# Del proxy env
-sudo proxy-end
+# Unset proxy env global, needs administrator privileges
+sudo proxy-del
+
+# Set proxy env in active terminal, should source .zshrc first
+proxy-on
+
+# Unset proxy env in active terminal, should source .zshrc first
+proxy-off
 ```

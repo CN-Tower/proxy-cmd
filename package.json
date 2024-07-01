@@ -1,15 +1,17 @@
 {
   "name": "proxy-cmd",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "main": "index.js",
   "bin": {
     "proxy-cmd": "bin/index.js",
+    "proxy-init": "bin/proxy-init.js",
     "proxy-url": "bin/proxy-url.js",
     "proxy-set": "bin/proxy-set.js",
     "proxy-del": "bin/proxy-del.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf bin && tsc -b --force tsconfig.build.json && tsx scripts/syncTpl.ts",
+    "repub": "tsx scripts/repub.ts"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +19,15 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^8.3.0",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "glob": "^7.1.7"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.10.5",
+    "@types/node-fetch": "^2.6.9",
+    "rimraf": "^3.0.2",
+    "tsx": "^3.13.0",
+    "typescript": "^5.3.3"
   }
 }
