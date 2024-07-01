@@ -1,6 +1,6 @@
 {
   "name": "proxy-cmd",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "bin": {
     "proxy-cmd": "bin/index.js",
@@ -13,6 +13,14 @@
     "build": "rimraf bin && tsc -b --force tsconfig.build.json && tsx scripts/syncTpl.ts",
     "repub": "tsx scripts/repub.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CN-Tower/proxy-cmd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CN-Tower/proxy-cmd/issues"
+  },
+  "homepage": "https://github.com/CN-Tower/proxy-cmd#readme",
   "author": "",
   "license": "ISC",
   "description": "",

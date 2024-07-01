@@ -21,7 +21,7 @@ proxy-init 'https://127.0.0.1:7890'
 proxy-url
 
 # Change proxy target url
-proxy-url 'https://127.0.0.1:8888'
+proxy-url 'https://127.0.0.1:8234'
 
 # Set proxy env global, needs administrator privileges
 proxy-set
@@ -50,7 +50,7 @@ sudo source ~/.zshrc
 sudo proxy-url
 
 # Change proxy target url
-sudo proxy-url 'https://127.0.0.1:8888'
+sudo proxy-url 'https://127.0.0.1:8234'
 
 # Set proxy env global, needs administrator privileges
 sudo proxy-set
