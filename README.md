@@ -2,6 +2,8 @@
 
 Toggle proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.
 
+[![npm](https://img.shields.io/npm/v/proxy-cmd.svg)](https://www.npmjs.com/package/proxy-cmd)
+
 ## Install
 
 ```bash
