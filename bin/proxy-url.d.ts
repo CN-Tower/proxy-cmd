@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-export {};
+/**
+ * Set or show proxy target url
+ */
+export declare const proxyUrl: () => void;

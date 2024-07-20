@@ -1,13 +1,9 @@
 {
   "name": "proxy-cmd",
-  "version": "1.1.7",
+  "version": "1.2.0",
   "main": "index.js",
   "bin": {
-    "proxy-cmd": "bin/index.js",
-    "proxy-init": "bin/proxy-init.js",
-    "proxy-url": "bin/proxy-url.js",
-    "proxy-set": "bin/proxy-set.js",
-    "proxy-del": "bin/proxy-del.js"
+    "proxy-cmd": "bin/index.js"
   },
   "scripts": {
     "build": "rimraf bin && tsc -b --force tsconfig.build.json && tsx scripts/syncTpl.ts",

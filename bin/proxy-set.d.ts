@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-export {};
+/**
+ * Set global proxy environments
+ */
+export declare const proxySet: () => void;

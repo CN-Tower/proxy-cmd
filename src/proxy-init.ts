@@ -14,66 +14,81 @@ import {
 import os from 'os'
 import chalk from 'chalk'
 
-const proxyCmd = join(os.homedir(), 'proxy-cmd')
-ensureDirSync(proxyCmd)
-const proxyUrl = join(proxyCmd, '.proxy-url')
-ensureFileSync(proxyUrl)
-
-let purl = readFileSync(proxyUrl, 'utf-8')
-let [x, cmd, url] = process.argv
-if (x === 'proxy-url') url = cmd
-if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
-  writeFileSync(proxyUrl, url)
-  purl = url
-  console.log(`Proxy url set to: ${chalk.cyan(url)}`)
-}
-
-// Windows
-if (os.platform() === 'win32') {
-  // Set PROXY_URL
-  try {
-    execSync(`setx PROXY_URL "${purl}" /M`, { stdio: 'inherit' })
-  } catch {}
-  // Set alias
-  const aliasBat  = join(proxyCmd, 'alias.bat')
-  if (existsSync(aliasBat )) removeSync(aliasBat )
-  copyFileSync(join(__dirname, 'alias.bat'), aliasBat )
-  try {
-    execSync(
-      `REG add "HKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor" /v AutoRun /t REG_SZ /d "${aliasBat }" /f`,
-      { stdio: 'inherit' }
-    )
-  } catch {}
-}
-// MacOS
-else if (os.platform() === 'darwin') {
-  const rcFile = join(os.homedir(), '.zshrc')
-  ensureFileSync(rcFile)
-  let rcTpl = readFileSync(rcFile, 'utf-8')
-  // Set PROXY_URL
-  if (rcTpl.match(/^\s*PROXY_URL\s*=.*$/gm)) {
-    rcTpl = rcTpl.replace(/^\s*PROXY_URL\s*=.*$/gm, `PROXY_URL='${purl}'`)
-  } else {
-    rcTpl = `${rcTpl}\nPROXY_URL='${purl}'`
+/**
+ * Init proxy-cmd
+ */
+export const proxyInit = () => {
+  const proxyCmd = join(os.homedir(), 'proxy-cmd')
+  ensureDirSync(proxyCmd)
+  const proxyUrl = join(proxyCmd, '.proxy-url')
+  ensureFileSync(proxyUrl)
+  
+  let purl = readFileSync(proxyUrl, 'utf-8')
+  let [x, cmd, init, url] = process.argv
+  if (x === 'proxy-cmd') url = init
+  if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
+    writeFileSync(proxyUrl, url)
+    purl = url
+    console.log(`Proxy url set to: ${chalk.cyan(url)}`)
   }
-  // Set alias proxy-on
-  const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL'"`
-  if (rcTpl.match(/^\s*alias proxy-on/gm)) {
-    rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn)
-  } else {
-    rcTpl = `${rcTpl}\n${cmdOn}`
-  }
-  // Set alias proxy-off
-  const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY"`
-  if (rcTpl.match(/^\s*alias proxy-off/gm)) {
-    rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff)
-  } else {
-    rcTpl = `${rcTpl}\n${cmdOff}`
-  }
-  writeFileSync(rcFile, rcTpl)
-  execSync(`source ${rcFile}`, { stdio: 'inherit' })
-}
 
-console.log(
-  chalk.green(`proxy-cmd inited, restart your terminal and run \`proxy-on\` or \`proxy-off\` to switch proxy`)
-)
+  // Windows
+  if (os.platform() === 'win32') {
+    // Set PROXY_URL
+    try {
+      execSync(`setx PROXY_URL "${purl}" /M`, { stdio: 'inherit' })
+    } catch {}
+    // Set cmd alias
+    const aliasBat = join(proxyCmd, 'alias.bat')
+    if (existsSync(aliasBat )) removeSync(aliasBat )
+    copyFileSync(join(__dirname, 'alias.bat'), aliasBat )
+    try {
+      execSync(
+        `REG add "HKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor" /v AutoRun /t REG_SZ /d "${aliasBat }" /f`,
+        { stdio: 'inherit' }
+      )
+    } catch {}
+    // Set powershell alias
+    const aliasPs1S = join(__dirname, 'Microsoft.PowerShell_profile.ps1')
+    const aliasPs1T = join(os.homedir(), 'Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1')
+    if (!existsSync(aliasPs1T)) {
+      copyFileSync(aliasPs1S, aliasPs1T)
+    } else {
+      const pwPs1 = readFileSync(aliasPs1T, 'utf-8')
+      if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
+        writeFileSync(aliasPs1T, `${pwPs1}\n${readFileSync(aliasPs1S, 'utf-8')}`)
+      }
+    }
+  }
+  // MacOS
+  else if (os.platform() === 'darwin') {
+    const rcFile = join(os.homedir(), '.zshrc')
+    ensureFileSync(rcFile)
+    let rcTpl = readFileSync(rcFile, 'utf-8')
+    // Set PROXY_URL
+    if (rcTpl.match(/^\s*PROXY_URL\s*=.*$/gm)) {
+      rcTpl = rcTpl.replace(/^\s*PROXY_URL\s*=.*$/gm, `PROXY_URL='${purl}'`)
+    } else {
+      rcTpl = `${rcTpl}\nPROXY_URL='${purl}'`
+    }
+    // Set alias proxy-on
+    const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL'"`
+    if (rcTpl.match(/^\s*alias proxy-on/gm)) {
+      rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn)
+    } else {
+      rcTpl = `${rcTpl}\n${cmdOn}`
+    }
+    // Set alias proxy-off
+    const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY"`
+    if (rcTpl.match(/^\s*alias proxy-off/gm)) {
+      rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff)
+    } else {
+      rcTpl = `${rcTpl}\n${cmdOff}`
+    }
+    writeFileSync(rcFile, rcTpl)
+    execSync(`source ${rcFile}`, { stdio: 'inherit' })
+  }
+  console.log(
+    chalk.green(`proxy-cmd inited, restart your terminal and run \`proxy-on\` or \`proxy-off\` to switch proxy`)
+  )
+}

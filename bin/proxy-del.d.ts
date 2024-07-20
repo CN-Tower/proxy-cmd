@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-export {};
+/**
+ * Del global proxy environments
+ */
+export declare const proxyDel: () => void;

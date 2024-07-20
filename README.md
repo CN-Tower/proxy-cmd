@@ -16,61 +16,65 @@ Press `Win + R`, enter `cmd`, then press `Ctrl + Shift + Enter`, open cmd as adm
 
 ```bash
 # Init proxy
-proxy-init 'http://127.0.0.1:7890'
+proxy-cmd init 'http://127.0.0.1:7890'
 
 # Show proxy target url
-proxy-url
+proxy-cmd url
 
 # Change proxy target url
-proxy-url 'http://127.0.0.1:8234'
+proxy-cmd url 'http://127.0.0.1:8234'
 
-# Set proxy env global, needs administrator privileges
+# Set global proxy environments, needs administrator privileges
+# Needs restart the terminal after running this command
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
-proxy-set
+proxy-cmd set
 
-# Unset proxy env global, needs administrator privileges
-proxy-del
+# Del global proxy environments, needs administrator privileges
+# Needs restart the terminal after running this command
+proxy-cmd del
 
-# Set proxy env in current terminal
+# Set proxy environments in current terminal
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Unset proxy env in current terminal
+# Del proxy environments in current terminal
 proxy-off
 ```
 
 ### MacOS
 
-Open terminal
+Run the following commands in terminal
 
 ```bash
 # Init proxy
-sudo proxy-init 'http://127.0.0.1:7890'
+sudo proxy-cmd init 'http://127.0.0.1:7890'
 
 # Enable proxy-cmd alias
 sudo source ~/.zshrc
 
 # Show proxy target url
-sudo proxy-url
+sudo proxy-cmd url
 
 # Change proxy target url
-sudo proxy-url 'http://127.0.0.1:8234'
+sudo proxy-cmd url 'http://127.0.0.1:8234'
 
-# Set proxy env global, needs administrator privileges
+# Set global proxy environments, needs administrator privileges
+# Needs restart the terminal after running this command
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
-sudo proxy-set
+sudo proxy-cmd set
 
-# Unset proxy env global, needs administrator privileges
-sudo proxy-del
+# Del global proxy environments, needs administrator privileges
+# Needs restart the terminal after running this command
+sudo proxy-cmd del
 
-# Set proxy env in current terminal, should source .zshrc first
+# Set proxy environments in current terminal, should source .zshrc first
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Unset proxy env in current terminal, should source .zshrc first
+# Del proxy environments in current terminal, should source .zshrc first
 proxy-off
 ```

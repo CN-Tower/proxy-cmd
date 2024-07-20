@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-export {};
+/**
+ * Init proxy-cmd
+ */
+export declare const proxyInit: () => void;
