@@ -14,7 +14,7 @@ npm i -g proxy-cmd
 
 ### Windows
 
-Press `Win + R`, enter `cmd`, then press `Ctrl + Shift + Enter`, open cmd as administrator
+Press `Win + R`, input "cmd", then press `Ctrl + Shift + Enter`, open cmd as administrator
 
 ```bash
 # Init proxy
