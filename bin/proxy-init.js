@@ -45,7 +45,9 @@ const proxyInit = () => {
         catch { }
         // Set powershell alias
         const aliasPs1S = (0, path_1.join)(__dirname, 'Microsoft.PowerShell_profile.ps1');
-        const aliasPs1T = (0, path_1.join)(os_1.default.homedir(), 'Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1');
+        const aliasPs1D = (0, path_1.join)(os_1.default.homedir(), 'Documents/WindowsPowerShell');
+        (0, fs_extra_1.ensureDirSync)(aliasPs1D);
+        const aliasPs1T = (0, path_1.join)(aliasPs1D, 'Microsoft.PowerShell_profile.ps1');
         if (!(0, fs_extra_1.existsSync)(aliasPs1T)) {
             (0, fs_extra_1.copyFileSync)(aliasPs1S, aliasPs1T);
         }
