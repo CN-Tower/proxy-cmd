@@ -31,24 +31,37 @@ const proxySet = () => {
             catch { }
         }
         // MacOS
-        else if (os_1.default.platform() === 'darwin') {
-            const rcFile = (0, path_1.join)(os_1.default.homedir(), '.zshrc');
-            (0, fs_extra_1.ensureFileSync)(rcFile);
-            let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
-            if (rcTpl.match(/HTTP_PROXY/)) {
-                rcTpl = rcTpl.replace(/^\s*#?\s*export HTTP_PROXY\s*=\s*.*/mg, `export HTTP_PROXY="${purl}"`);
+        else {
+            const wtAliasInRcFile = (rcFile) => {
+                (0, fs_extra_1.ensureFileSync)(rcFile);
+                let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
+                if (rcTpl.match(/HTTP_PROXY/)) {
+                    rcTpl = rcTpl.replace(/^\s*#?\s*export HTTP_PROXY\s*=\s*.*/mg, `export HTTP_PROXY="${purl}"`);
+                }
+                else {
+                    rcTpl = `${rcTpl}\nexport HTTP_PROXY="${purl}"`;
+                }
+                if (rcTpl.match(/HTTPS_PROXY/)) {
+                    rcTpl = rcTpl.replace(/^\s*#?\s*export HTTPS_PROXY\s*=\s*.*/mg, `export HTTPS_PROXY="${purl}"`);
+                }
+                else {
+                    rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${purl}"`;
+                }
+                (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
+                (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
+            };
+            // MacOS
+            if (os_1.default.platform() === 'darwin') {
+                const zshrc = (0, path_1.join)(os_1.default.homedir(), '.zshrc');
+                const bashrc = (0, path_1.join)(os_1.default.homedir(), '.bashrc');
+                wtAliasInRcFile(zshrc);
+                wtAliasInRcFile(bashrc);
             }
+            // Linux
             else {
-                rcTpl = `${rcTpl}\nexport HTTP_PROXY="${purl}"`;
+                const bashrc = (0, path_1.join)(os_1.default.homedir(), '.bashrc');
+                wtAliasInRcFile(bashrc);
             }
-            if (rcTpl.match(/HTTPS_PROXY/)) {
-                rcTpl = rcTpl.replace(/^\s*#?\s*export HTTPS_PROXY\s*=\s*.*/mg, `export HTTPS_PROXY="${purl}"`);
-            }
-            else {
-                rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${purl}"`;
-            }
-            (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
-            (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
         }
         console.log(chalk_1.default.green(`Success set proxy env to: ${purl}`));
     }

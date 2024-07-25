@@ -37,14 +37,27 @@ export const proxyDel = () => {
       execSync(`PowerShell.exe [Environment]::SetEnvironmentVariable('HTTPS_PROXY', $null, 'Machine')`, { stdio: 'inherit' })
     } catch {}
   }
-  // MacOS
-  else if (os.platform() === 'darwin') {
-    const rcFile = join(os.homedir(), '.zshrc')
-    ensureFileSync(rcFile)
-    const rc = readFileSync(rcFile, 'utf-8')
-    if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
-      writeFileSync(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'))
-      execSync(`source ${rcFile}`)
+  // MacOS or Linux
+  else {
+    const wtAliasInRcFile = (rcFile: string) => {
+      ensureFileSync(rcFile)
+      const rc = readFileSync(rcFile, 'utf-8')
+      if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
+        writeFileSync(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'))
+        execSync(`source ${rcFile}`)
+      }
+    }
+    // MacOS
+    if (os.platform() === 'darwin') {
+      const zshrc = join(os.homedir(), '.zshrc')
+      const bashrc = join(os.homedir(), '.bashrc')
+      wtAliasInRcFile(zshrc)
+      wtAliasInRcFile(bashrc)
+    }
+    // Linux
+    else {
+      const bashrc = join(os.homedir(), '.bashrc')
+      wtAliasInRcFile(bashrc)
     }
   }
   console.log(chalk.green(`Success del proxy env`))

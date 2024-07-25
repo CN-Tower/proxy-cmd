@@ -13,43 +13,43 @@ const proxy_set_1 = require("./proxy-set");
 const proxy_del_1 = require("./proxy-del");
 const description = `\
   ${chalk_1.default.green('Proxy switcher')}
-    
     Init proxy-cmd: ${chalk_1.default.cyan('proxy-cmd init')}
     Init proxy-cmd with url: ${chalk_1.default.cyan('proxy-cmd init http://ip:port')}
     Set proxy target url: ${chalk_1.default.cyan('proxy-cmd url http://ip:port')}
-    Display proxy target url: ${chalk_1.default.cyan('proxy-cmd url')}
+    Show proxy target url: ${chalk_1.default.cyan('proxy-cmd url')}
     Set global proxy environments: ${chalk_1.default.cyan('proxy-cmd set')}
     Del global proxy environments: ${chalk_1.default.cyan('proxy-cmd del')}
-    Set local proxy environments: ${chalk_1.default.cyan('proxy-on')}
-    Del local proxy environments: ${chalk_1.default.cyan('proxy-off')}
+    Set current process proxy environments: ${chalk_1.default.cyan('proxy-on')}
+    Del current process proxy environments: ${chalk_1.default.cyan('proxy-off')}
   
     GitHub：${chalk_1.default.cyan('https://github.com/CN-Tower/proxy-cmd')}`;
-commander_1.program
-    .version(package_json_1.default.version)
-    .option('-v, --version', 'output the version number')
-    .description(description);
+commander_1.program.version(package_json_1.default.version).option('-v, --version', 'output the version number').description(description);
 /**
  * Init proxy-cmd
  */
-commander_1.program.command('init').action(() => {
-    (0, proxy_init_1.proxyInit)();
-});
+commander_1.program
+    .command('init')
+    .action(() => (0, proxy_init_1.proxyInit)())
+    .description(`Init proxy-cmd: ${chalk_1.default.cyan('proxy-cmd init')}`);
 /**
  * Set or show proxy target url
  */
-commander_1.program.command('url').action(() => {
-    (0, proxy_url_1.proxyUrl)();
-});
+commander_1.program
+    .command('url')
+    .action(() => (0, proxy_url_1.proxyUrl)())
+    .description(`Set or Show proxy target url: ${chalk_1.default.cyan('proxy-cmd url http://ip:port')}`);
 /**
  * Set global proxy environments
  */
-commander_1.program.command('set').action(() => {
-    (0, proxy_set_1.proxySet)();
-});
+commander_1.program
+    .command('set')
+    .action(() => (0, proxy_set_1.proxySet)())
+    .description(`Set global proxy environments: ${chalk_1.default.cyan('proxy-cmd set')}`);
 /**
  * Del global proxy environments
  */
-commander_1.program.command('del').action(() => {
-    (0, proxy_del_1.proxyDel)();
-});
+commander_1.program
+    .command('del')
+    .action(() => (0, proxy_del_1.proxyDel)())
+    .description(`Del global proxy environments: ${chalk_1.default.cyan('proxy-cmd del')}`);
 commander_1.program.parse(process.argv);

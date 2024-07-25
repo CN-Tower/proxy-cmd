@@ -58,36 +58,49 @@ const proxyInit = () => {
             }
         }
     }
-    // MacOS
-    else if (os_1.default.platform() === 'darwin') {
-        const rcFile = (0, path_1.join)(os_1.default.homedir(), '.zshrc');
-        (0, fs_extra_1.ensureFileSync)(rcFile);
-        let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
-        // Set PROXY_URL
-        if (rcTpl.match(/^\s*PROXY_URL\s*=.*$/gm)) {
-            rcTpl = rcTpl.replace(/^\s*PROXY_URL\s*=.*$/gm, `PROXY_URL='${purl}'`);
+    // MacOS orLinux
+    else {
+        const wtAliasInRcFile = (rcFile) => {
+            (0, fs_extra_1.ensureFileSync)(rcFile);
+            let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
+            // Set PROXY_URL
+            if (rcTpl.match(/^(export\s*)?PROXY_URL\s*=.*$/gm)) {
+                rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, `export PROXY_URL='${purl}'`);
+            }
+            else {
+                rcTpl = `${rcTpl}\nexport PROXY_URL='${purl}'`;
+            }
+            // Set alias proxy-on
+            const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL'"`;
+            if (rcTpl.match(/^\s*alias proxy-on/gm)) {
+                rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn);
+            }
+            else {
+                rcTpl = `${rcTpl}\n${cmdOn}`;
+            }
+            // Set alias proxy-off
+            const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY"`;
+            if (rcTpl.match(/^\s*alias proxy-off/gm)) {
+                rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff);
+            }
+            else {
+                rcTpl = `${rcTpl}\n${cmdOff}`;
+            }
+            (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
+            (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
+        };
+        // MacOS
+        if (os_1.default.platform() === 'darwin') {
+            const zshrc = (0, path_1.join)(os_1.default.homedir(), '.zshrc');
+            const bashrc = (0, path_1.join)(os_1.default.homedir(), '.bashrc');
+            wtAliasInRcFile(zshrc);
+            wtAliasInRcFile(bashrc);
         }
+        // Linux
         else {
-            rcTpl = `${rcTpl}\nPROXY_URL='${purl}'`;
+            const bashrc = (0, path_1.join)(os_1.default.homedir(), '.bashrc');
+            wtAliasInRcFile(bashrc);
         }
-        // Set alias proxy-on
-        const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL'"`;
-        if (rcTpl.match(/^\s*alias proxy-on/gm)) {
-            rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn);
-        }
-        else {
-            rcTpl = `${rcTpl}\n${cmdOn}`;
-        }
-        // Set alias proxy-off
-        const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY"`;
-        if (rcTpl.match(/^\s*alias proxy-off/gm)) {
-            rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff);
-        }
-        else {
-            rcTpl = `${rcTpl}\n${cmdOff}`;
-        }
-        (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
-        (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
     }
     console.log(chalk_1.default.green(`proxy-cmd inited, restart your terminal and run \`proxy-on\` or \`proxy-off\` to switch proxy`));
 };

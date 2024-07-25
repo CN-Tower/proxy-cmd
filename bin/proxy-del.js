@@ -49,14 +49,27 @@ const proxyDel = () => {
         }
         catch { }
     }
-    // MacOS
-    else if (os_1.default.platform() === 'darwin') {
-        const rcFile = (0, path_1.join)(os_1.default.homedir(), '.zshrc');
-        (0, fs_extra_1.ensureFileSync)(rcFile);
-        const rc = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
-        if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
-            (0, fs_extra_1.writeFileSync)(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'));
-            (0, child_process_1.execSync)(`source ${rcFile}`);
+    // MacOS or Linux
+    else {
+        const wtAliasInRcFile = (rcFile) => {
+            (0, fs_extra_1.ensureFileSync)(rcFile);
+            const rc = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
+            if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
+                (0, fs_extra_1.writeFileSync)(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'));
+                (0, child_process_1.execSync)(`source ${rcFile}`);
+            }
+        };
+        // MacOS
+        if (os_1.default.platform() === 'darwin') {
+            const zshrc = (0, path_1.join)(os_1.default.homedir(), '.zshrc');
+            const bashrc = (0, path_1.join)(os_1.default.homedir(), '.bashrc');
+            wtAliasInRcFile(zshrc);
+            wtAliasInRcFile(bashrc);
+        }
+        // Linux
+        else {
+            const bashrc = (0, path_1.join)(os_1.default.homedir(), '.bashrc');
+            wtAliasInRcFile(bashrc);
         }
     }
     console.log(chalk_1.default.green(`Success del proxy env`));

@@ -36,16 +36,16 @@ proxy-cmd set
 # Needs restart the terminal after running this command
 proxy-cmd del
 
-# Set proxy environments in current terminal
+# Set current process proxy environments
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Del proxy environments in current terminal
+# Del current process proxy environments
 proxy-off
 ```
 
-### MacOS
+### MacOS or Linux
 
 Run the following commands in terminal
 
@@ -54,6 +54,8 @@ Run the following commands in terminal
 sudo proxy-cmd init 'http://127.0.0.1:7890'
 
 # Enable proxy-cmd alias
+sudo source ~/.bashrc
+# MacOs only
 sudo source ~/.zshrc
 
 # Show proxy target url
@@ -72,11 +74,11 @@ sudo proxy-cmd set
 # Needs restart the terminal after running this command
 sudo proxy-cmd del
 
-# Set proxy environments in current terminal, should source .zshrc first
+# Set current process proxy environments, should source .zshrc and .bashrc first
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Del proxy environments in current terminal, should source .zshrc first
+# Del current process proxy environments, should source .zshrc and .bashrc first
 proxy-off
 ```
