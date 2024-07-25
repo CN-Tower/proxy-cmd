@@ -49,7 +49,9 @@ export const proxyUrl = () => {
           rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${url}"`
         }
         writeFileSync(rcFile, rcTpl)
-        execSync(`source ${rcFile}`, { stdio: 'inherit' })
+        try {
+          execSync(`source ${rcFile}`, { stdio: 'inherit' })
+        } finally {}
       }
       // MacOS
       if (os.platform() === 'darwin') {

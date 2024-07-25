@@ -87,7 +87,10 @@ const proxyInit = () => {
                 rcTpl = `${rcTpl}\n${cmdOff}`;
             }
             (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
-            (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
+            try {
+                (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
+            }
+            finally { }
         };
         // MacOS
         if (os_1.default.platform() === 'darwin') {

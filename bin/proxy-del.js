@@ -56,7 +56,10 @@ const proxyDel = () => {
             const rc = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
             if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
                 (0, fs_extra_1.writeFileSync)(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'));
-                (0, child_process_1.execSync)(`source ${rcFile}`);
+                try {
+                    (0, child_process_1.execSync)(`source ${rcFile}`, { stdio: 'inherit' });
+                }
+                finally { }
             }
         };
         // MacOS
