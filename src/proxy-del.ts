@@ -45,8 +45,8 @@ export const proxyDel = () => {
       if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
         writeFileSync(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'))
         try {
-          execSync(`source ${rcFile}`, { stdio: 'inherit' })
-        } finally {}
+          execSync(`type srouce > /dev/null 2>&1 && source ${rcFile}`, { stdio: 'inherit' })
+        } catch {}
       }
     }
     // MacOS

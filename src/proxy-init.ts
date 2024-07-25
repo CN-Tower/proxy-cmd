@@ -89,8 +89,8 @@ export const proxyInit = () => {
       }
       writeFileSync(rcFile, rcTpl)
       try {
-        execSync(`source ${rcFile}`, { stdio: 'inherit' })
-      } finally {}
+        execSync(`type srouce > /dev/null 2>&1 && source ${rcFile}`, { stdio: 'inherit' })
+      } catch {}
     }
     // MacOS
     if (os.platform() === 'darwin') {
