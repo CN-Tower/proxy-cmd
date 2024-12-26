@@ -15,14 +15,14 @@ const chalk_1 = __importDefault(require("chalk"));
  */
 const proxyUrl = () => {
     const proxyCmd = (0, path_1.join)(os_1.default.homedir(), 'proxy-cmd');
-    const pxUrl = (0, path_1.join)(proxyCmd, '.proxy-url');
-    (0, fs_extra_1.ensureFileSync)(pxUrl);
+    const pxUrlFile = (0, path_1.join)(proxyCmd, '.proxy-url');
+    (0, fs_extra_1.ensureFileSync)(pxUrlFile);
     let [x, cmd, u, url] = process.argv;
     if (x === 'proxy-cmd')
         url = u;
     // Set proxy url
     if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
-        (0, fs_extra_1.writeFileSync)(pxUrl, url);
+        (0, fs_extra_1.writeFileSync)(pxUrlFile, url);
         // Windows
         if (os_1.default.platform() === 'win32') {
             // Set PROXY_URL
@@ -78,7 +78,7 @@ const proxyUrl = () => {
     }
     // Show current proxy url
     else {
-        const purl = (0, fs_extra_1.readFileSync)(pxUrl, 'utf-8');
+        const purl = (0, fs_extra_1.readFileSync)(pxUrlFile, 'utf-8');
         console.log(`Current proxy url is: ${chalk_1.default.cyan(purl)}`);
     }
 };

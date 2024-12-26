@@ -11,15 +11,15 @@ import chalk from 'chalk'
  */
 export const proxyUrl = () => {
   const proxyCmd = join(os.homedir(), 'proxy-cmd')
-  const pxUrl = join(proxyCmd, '.proxy-url')
-  ensureFileSync(pxUrl)
+  const pxUrlFile = join(proxyCmd, '.proxy-url')
+  ensureFileSync(pxUrlFile)
   
   let [x, cmd, u, url] = process.argv
   if (x === 'proxy-cmd') url = u
   
   // Set proxy url
   if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
-    writeFileSync(pxUrl, url)
+    writeFileSync(pxUrlFile, url)
     // Windows
     if (os.platform() === 'win32') {
       // Set PROXY_URL
@@ -70,7 +70,7 @@ export const proxyUrl = () => {
   }
   // Show current proxy url
   else {
-    const purl = readFileSync(pxUrl, 'utf-8')
+    const purl = readFileSync(pxUrlFile, 'utf-8')
     console.log(`Current proxy url is: ${chalk.cyan(purl)}`)
   }
 }

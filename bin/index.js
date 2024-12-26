@@ -9,6 +9,7 @@ const commander_1 = require("commander");
 const chalk_1 = __importDefault(require("chalk"));
 const proxy_init_1 = require("./proxy-init");
 const proxy_url_1 = require("./proxy-url");
+const no_proxy_1 = require("./no-proxy");
 const proxy_set_1 = require("./proxy-set");
 const proxy_del_1 = require("./proxy-del");
 const description = `\
@@ -17,6 +18,9 @@ const description = `\
     Init proxy-cmd with url: ${chalk_1.default.cyan('proxy-cmd init http://ip:port')}
     Set proxy target url: ${chalk_1.default.cyan('proxy-cmd url http://ip:port')}
     Show proxy target url: ${chalk_1.default.cyan('proxy-cmd url')}
+    Set NO_PROXY config: ${chalk_1.default.cyan('proxy-cmd np localhost,127.0.0.1')}
+    Show NO_PROXY config: ${chalk_1.default.cyan('proxy-cmd np')}
+    Delte NO_PROXY config: ${chalk_1.default.cyan('proxy-cmd np del')}
     Set global proxy environments: ${chalk_1.default.cyan('proxy-cmd set')}
     Del global proxy environments: ${chalk_1.default.cyan('proxy-cmd del')}
     Set current process proxy environments: ${chalk_1.default.cyan('proxy-on')}
@@ -38,6 +42,13 @@ commander_1.program
     .command('url')
     .action(() => (0, proxy_url_1.proxyUrl)())
     .description(`Set or Show proxy target url: ${chalk_1.default.cyan('proxy-cmd url http://ip:port')}`);
+/**
+ * Set or show NO_PROXY config
+ */
+commander_1.program
+    .command('np')
+    .action(() => (0, no_proxy_1.noProxy)())
+    .description(`Set or show NO_PROXY config: ${chalk_1.default.cyan('proxy-cmd np localhost,127.0.0.1')}`);
 /**
  * Set global proxy environments
  */

@@ -16,22 +16,42 @@ const chalk_1 = __importDefault(require("chalk"));
 const proxyInit = () => {
     const proxyCmd = (0, path_1.join)(os_1.default.homedir(), 'proxy-cmd');
     (0, fs_extra_1.ensureDirSync)(proxyCmd);
-    const proxyUrl = (0, path_1.join)(proxyCmd, '.proxy-url');
-    (0, fs_extra_1.ensureFileSync)(proxyUrl);
-    let purl = (0, fs_extra_1.readFileSync)(proxyUrl, 'utf-8');
-    let [x, cmd, init, url] = process.argv;
-    if (x === 'proxy-cmd')
+    const proxyUrlFile = (0, path_1.join)(proxyCmd, '.proxy-url');
+    (0, fs_extra_1.ensureFileSync)(proxyUrlFile);
+    const noProxyFile = (0, path_1.join)(proxyCmd, '.no-proxy');
+    (0, fs_extra_1.ensureFileSync)(noProxyFile);
+    let purl = (0, fs_extra_1.readFileSync)(proxyUrlFile, 'utf-8');
+    let nopx = (0, fs_extra_1.readFileSync)(noProxyFile, 'utf-8');
+    let [x, cmd, init, url, noProxy] = process.argv;
+    if (x === 'proxy-cmd') {
+        noProxy = url;
         url = init;
+    }
     if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
-        (0, fs_extra_1.writeFileSync)(proxyUrl, url);
+        (0, fs_extra_1.writeFileSync)(proxyUrlFile, url);
         purl = url;
         console.log(`Proxy url set to: ${chalk_1.default.cyan(url)}`);
+    }
+    if (noProxy) {
+        if (noProxy === 'del') {
+            nopx = '';
+        }
+        else {
+            nopx = noProxy;
+        }
+        (0, fs_extra_1.writeFileSync)(noProxyFile, nopx);
+        console.log(`NO_PROXY config set to: ${chalk_1.default.cyan(nopx)}`);
     }
     // Windows
     if (os_1.default.platform() === 'win32') {
         // Set PROXY_URL
         try {
             (0, child_process_1.execSync)(`setx PROXY_URL "${purl}" /M`, { stdio: 'inherit' });
+        }
+        catch { }
+        // Set PROXY_NOC
+        try {
+            (0, child_process_1.execSync)(`setx PROXY_NOC "${nopx}" /M`, { stdio: 'inherit' });
         }
         catch { }
         // Set cmd alias
@@ -56,9 +76,22 @@ const proxyInit = () => {
             if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
                 (0, fs_extra_1.writeFileSync)(aliasPs1T, `${pwPs1}\n${(0, fs_extra_1.readFileSync)(aliasPs1S, 'utf-8')}`);
             }
+            // Set NO_PROXY
+            else {
+                if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
+                    const pwPs1New = pwPs1
+                        .replace(/\$env:HTTPS_PROXY = \$env:PROXY_URL/, (mt) => {
+                        return `${mt}\n  $env:NO_PROXY = $env:PROXY_NOC`;
+                    })
+                        .replace(/Remove-Item Env:HTTPS_PROXY/, (mt) => {
+                        return `${mt}\n  Remove-Item Env:NO_PROXY`;
+                    });
+                    (0, fs_extra_1.writeFileSync)(aliasPs1T, pwPs1New);
+                }
+            }
         }
     }
-    // MacOS orLinux
+    // MacOS or Linux
     else {
         const wtAliasInRcFile = (rcFile) => {
             (0, fs_extra_1.ensureFileSync)(rcFile);
@@ -70,8 +103,15 @@ const proxyInit = () => {
             else {
                 rcTpl = `${rcTpl}\nexport PROXY_URL='${purl}'`;
             }
+            // Set PROXY_NOC
+            if (rcTpl.match(/^(export\s*)?PROXY_NOC\s*=.*$/gm)) {
+                rcTpl = rcTpl.replace(/^(export\s*)?PROXY_NOC\s*=.*$/gm, `export PROXY_NOC='${nopx}'`);
+            }
+            else {
+                rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, (mt) => `${mt}\nexport PROXY_NOC='${nopx}'`);
+            }
             // Set alias proxy-on
-            const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL'"`;
+            const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL' && export NO_PROXY='$PROXY_NOC'"`;
             if (rcTpl.match(/^\s*alias proxy-on/gm)) {
                 rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn);
             }
@@ -79,7 +119,7 @@ const proxyInit = () => {
                 rcTpl = `${rcTpl}\n${cmdOn}`;
             }
             // Set alias proxy-off
-            const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY"`;
+            const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY && unset NO_PROXY"`;
             if (rcTpl.match(/^\s*alias proxy-off/gm)) {
                 rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff);
             }

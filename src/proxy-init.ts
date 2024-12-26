@@ -20,16 +20,31 @@ import chalk from 'chalk'
 export const proxyInit = () => {
   const proxyCmd = join(os.homedir(), 'proxy-cmd')
   ensureDirSync(proxyCmd)
-  const proxyUrl = join(proxyCmd, '.proxy-url')
-  ensureFileSync(proxyUrl)
+  const proxyUrlFile = join(proxyCmd, '.proxy-url')
+  ensureFileSync(proxyUrlFile)
+  const noProxyFile = join(proxyCmd, '.no-proxy')
+  ensureFileSync(noProxyFile)
 
-  let purl = readFileSync(proxyUrl, 'utf-8')
-  let [x, cmd, init, url] = process.argv
-  if (x === 'proxy-cmd') url = init
+  let purl = readFileSync(proxyUrlFile, 'utf-8')
+  let nopx = readFileSync(noProxyFile, 'utf-8')
+  let [x, cmd, init, url, noProxy] = process.argv
+  if (x === 'proxy-cmd') {
+    noProxy = url
+    url = init
+  }
   if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
-    writeFileSync(proxyUrl, url)
+    writeFileSync(proxyUrlFile, url)
     purl = url
     console.log(`Proxy url set to: ${chalk.cyan(url)}`)
+  }
+  if (noProxy) {
+    if (noProxy === 'del') {
+      nopx = ''
+    } else {
+      nopx = noProxy
+    }
+    writeFileSync(noProxyFile, nopx)
+    console.log(`NO_PROXY config set to: ${chalk.cyan(nopx)}`)
   }
 
   // Windows
@@ -37,6 +52,10 @@ export const proxyInit = () => {
     // Set PROXY_URL
     try {
       execSync(`setx PROXY_URL "${purl}" /M`, { stdio: 'inherit' })
+    } catch {}
+    // Set PROXY_NOC
+    try {
+      execSync(`setx PROXY_NOC "${nopx}" /M`, { stdio: 'inherit' })
     } catch {}
     // Set cmd alias
     const aliasBat = join(proxyCmd, 'alias.bat')
@@ -57,12 +76,26 @@ export const proxyInit = () => {
       copyFileSync(aliasPs1S, aliasPs1T)
     } else {
       const pwPs1 = readFileSync(aliasPs1T, 'utf-8')
+      // Init pwPs1
       if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
         writeFileSync(aliasPs1T, `${pwPs1}\n${readFileSync(aliasPs1S, 'utf-8')}`)
       }
+      // Add NO_PROXY
+      else {
+        if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
+          const pwPs1New = pwPs1
+            .replace(/\$env:HTTPS_PROXY = \$env:PROXY_URL/, (mt) => {
+              return `${mt}\n  $env:NO_PROXY = $env:PROXY_NOC`
+            })
+            .replace(/Remove-Item Env:HTTPS_PROXY/, (mt) => {
+              return `${mt}\n  Remove-Item Env:NO_PROXY`
+            })
+          writeFileSync(aliasPs1T, pwPs1New)
+        }
+      }
     }
   }
-  // MacOS orLinux
+  // MacOS or Linux
   else {
     const wtAliasInRcFile = (rcFile: string) => {
       ensureFileSync(rcFile)
@@ -73,15 +106,21 @@ export const proxyInit = () => {
       } else {
         rcTpl = `${rcTpl}\nexport PROXY_URL='${purl}'`
       }
+      // Set PROXY_NOC
+      if (rcTpl.match(/^(export\s*)?PROXY_NOC\s*=.*$/gm)) {
+        rcTpl = rcTpl.replace(/^(export\s*)?PROXY_NOC\s*=.*$/gm, `export PROXY_NOC='${nopx}'`)
+      } else {
+        rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, (mt) => `${mt}\nexport PROXY_NOC='${nopx}'`)
+      }
       // Set alias proxy-on
-      const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL'"`
+      const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL' && export NO_PROXY='$PROXY_NOC'"`
       if (rcTpl.match(/^\s*alias proxy-on/gm)) {
         rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn)
       } else {
         rcTpl = `${rcTpl}\n${cmdOn}`
       }
       // Set alias proxy-off
-      const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY"`
+      const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY && unset NO_PROXY"`
       if (rcTpl.match(/^\s*alias proxy-off/gm)) {
         rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff)
       } else {

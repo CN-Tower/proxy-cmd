@@ -11,9 +11,12 @@ import chalk from 'chalk'
  */
 export const proxySet = () => {
   const proxyCmd = join(os.homedir(), 'proxy-cmd')
-  const proxyUrl = join(proxyCmd, '.proxy-url')
-  ensureFileSync(proxyUrl)
-  const purl = readFileSync(proxyUrl, 'utf-8')
+  const proxyUrlFile = join(proxyCmd, '.proxy-url')
+  const noProxyFile = join(proxyCmd, '.no-proxy')
+  ensureFileSync(proxyUrlFile)
+  ensureFileSync(noProxyFile)
+  const purl = readFileSync(proxyUrlFile, 'utf-8')
+  const nopx = readFileSync(noProxyFile, 'utf-8')
   
   if (purl) {
     // Windows
@@ -23,6 +26,9 @@ export const proxySet = () => {
       } catch {}
       try {
         execSync(`setx HTTPS_PROXY "${purl}" /M`, { stdio: 'inherit' })
+      } catch {}
+      try {
+        execSync(`setx NO_PROXY "${nopx}" /M`, { stdio: 'inherit' })
       } catch {}
     }
     // MacOS
@@ -39,6 +45,11 @@ export const proxySet = () => {
           rcTpl = rcTpl.replace(/^\s*#?\s*export HTTPS_PROXY\s*=\s*.*/mg, `export HTTPS_PROXY="${purl}"`)
         } else {
           rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${purl}"`
+        }
+        if (rcTpl.match(/NO_PROXY/)) {
+          rcTpl = rcTpl.replace(/^\s*#?\s*export NO_PROXY\s*=\s*.*/mg, `export NO_PROXY="${nopx}"`)
+        } else {
+          rcTpl = `${rcTpl}\nexport NO_PROXY="${nopx}"`
         }
         writeFileSync(rcFile, rcTpl)
         try {

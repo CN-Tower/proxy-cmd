@@ -5,6 +5,7 @@ import { program } from 'commander'
 import chalk from 'chalk'
 import { proxyInit } from './proxy-init'
 import { proxyUrl } from './proxy-url'
+import { noProxy } from './no-proxy'
 import { proxySet } from './proxy-set'
 import { proxyDel } from './proxy-del'
 
@@ -14,6 +15,9 @@ const description = `\
     Init proxy-cmd with url: ${chalk.cyan('proxy-cmd init http://ip:port')}
     Set proxy target url: ${chalk.cyan('proxy-cmd url http://ip:port')}
     Show proxy target url: ${chalk.cyan('proxy-cmd url')}
+    Set NO_PROXY config: ${chalk.cyan('proxy-cmd np localhost,127.0.0.1')}
+    Show NO_PROXY config: ${chalk.cyan('proxy-cmd np')}
+    Delte NO_PROXY config: ${chalk.cyan('proxy-cmd np del')}
     Set global proxy environments: ${chalk.cyan('proxy-cmd set')}
     Del global proxy environments: ${chalk.cyan('proxy-cmd del')}
     Set current process proxy environments: ${chalk.cyan('proxy-on')}
@@ -38,6 +42,14 @@ program
   .command('url')
   .action(() => proxyUrl())
   .description(`Set or Show proxy target url: ${chalk.cyan('proxy-cmd url http://ip:port')}`)
+
+/**
+ * Set or show NO_PROXY config
+ */
+program
+  .command('np')
+  .action(() => noProxy())
+  .description(`Set or show NO_PROXY config: ${chalk.cyan('proxy-cmd np localhost,127.0.0.1')}`)
 
 /**
  * Set global proxy environments

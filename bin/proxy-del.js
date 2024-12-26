@@ -16,6 +16,7 @@ const chalk_1 = __importDefault(require("chalk"));
 const proxyDel = () => {
     // Windows
     if (os_1.default.platform() === 'win32') {
+        // HTTP_PROXY
         try {
             (0, child_process_1.execSync)(`REG delete HKCU\\Environment /F /V HTTP_PROXY`, { stdio: 'inherit' });
         }
@@ -32,6 +33,7 @@ const proxyDel = () => {
             (0, child_process_1.execSync)(`PowerShell.exe [Environment]::SetEnvironmentVariable('HTTP_PROXY', $null, 'User')`, { stdio: 'inherit' });
         }
         catch { }
+        // HTTPS_PROXY
         try {
             (0, child_process_1.execSync)(`REG delete HKCU\\Environment /F /V HTTPS_PROXY`, { stdio: 'inherit' });
         }
@@ -48,14 +50,37 @@ const proxyDel = () => {
             (0, child_process_1.execSync)(`PowerShell.exe [Environment]::SetEnvironmentVariable('HTTPS_PROXY', $null, 'Machine')`, { stdio: 'inherit' });
         }
         catch { }
+        // NO_PROXY
+        try {
+            (0, child_process_1.execSync)(`REG delete HKCU\\Environment /F /V NO_PROXY`, { stdio: 'inherit' });
+        }
+        catch { }
+        try {
+            (0, child_process_1.execSync)(`REG delete "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" /F /V NO_PROXY`, { stdio: 'inherit' });
+        }
+        catch { }
+        try {
+            (0, child_process_1.execSync)(`PowerShell.exe [Environment]::SetEnvironmentVariable('NO_PROXY', $null, 'Machine')`, { stdio: 'inherit' });
+        }
+        catch { }
+        try {
+            (0, child_process_1.execSync)(`PowerShell.exe [Environment]::SetEnvironmentVariable('NO_PROXY', $null, 'Machine')`, { stdio: 'inherit' });
+        }
+        catch { }
     }
     // MacOS or Linux
     else {
         const wtAliasInRcFile = (rcFile) => {
             (0, fs_extra_1.ensureFileSync)(rcFile);
-            const rc = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
-            if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
-                (0, fs_extra_1.writeFileSync)(rcFile, rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1'));
+            let rc = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
+            if (rc.match(/HTTP_PROXY|HTTPS_PROXY|NO_PROXY/)) {
+                if (rc.match(/HTTP_PROXY|HTTPS_PROXY/)) {
+                    rc = rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1');
+                    (0, fs_extra_1.writeFileSync)(rcFile, rc);
+                }
+                if (rc.match(/NO_PROXY/)) {
+                    (0, fs_extra_1.writeFileSync)(rcFile, rc.replace(/^\s*(export NO_PROXY\s*=\s*.*)/mg, '# $1'));
+                }
                 try {
                     (0, child_process_1.execSync)(`type srouce > /dev/null 2>&1 && source ${rcFile}`, { stdio: 'inherit' });
                 }

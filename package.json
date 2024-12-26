@@ -1,6 +1,6 @@
 {
   "name": "proxy-cmd",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "main": "index.js",
   "bin": {
     "proxy-cmd": "bin/index.js"
@@ -21,18 +21,13 @@
   "license": "ISC",
   "description": "Toggle proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.",
   "keywords": [
-    "proxy",
-    "proxy-url",
-    "proxy-set",
-    "proxy-del",
-    "proxy-on",
-    "proxy-off",
-    "proxy-cmd",
-    "proxy-cli",
-    "proxy-switch",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "NO_PROXY",
     "proxy-env",
-    "http_proxy",
-    "https_proxy"
+    "proxy-env-switch",
+    "proxy-on",
+    "proxy-off"
   ],
   "dependencies": {
     "chalk": "^4.1.2",

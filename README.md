@@ -26,6 +26,15 @@ proxy-cmd url
 # Change proxy target url
 proxy-cmd url 'http://127.0.0.1:8234'
 
+# Show NO_PROXY config
+proxy-cmd np
+
+# Change NO_PROXY config
+proxy-cmd np 'localhost,127.0.0.1'
+
+# Delete NO_PROXY config
+proxy-cmd np del
+
 # Set global proxy environments, needs administrator privileges
 # Needs restart the terminal after running this command
 # HTTP_PROXY=http://127.0.0.1:8234
@@ -63,6 +72,15 @@ sudo proxy-cmd url
 
 # Change proxy target url
 sudo proxy-cmd url 'http://127.0.0.1:8234'
+
+# Show NO_PROXY config
+sudo proxy-cmd np
+
+# Change NO_PROXY config
+sudo proxy-cmd np 'localhost,127.0.0.1'
+
+# Delete NO_PROXY config
+sudo proxy-cmd np del
 
 # Set global proxy environments, needs administrator privileges
 # Needs restart the terminal after running this command
