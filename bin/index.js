@@ -30,6 +30,7 @@ const description = `\
 commander_1.program.version(package_json_1.default.version).option('-v, --version', 'output the version number').description(description);
 /**
  * Init proxy-cmd
+ * eg: proxy-cmd init http://127.0.0.1:8234 localhost,127.0.0.1
  */
 commander_1.program
     .command('init')
@@ -37,6 +38,7 @@ commander_1.program
     .description(`Init proxy-cmd: ${chalk_1.default.cyan('proxy-cmd init')}`);
 /**
  * Set or show proxy target url
+ * eg: proxy-cmd url http://127.0.0.1:8234
  */
 commander_1.program
     .command('url')
@@ -44,6 +46,7 @@ commander_1.program
     .description(`Set or Show proxy target url: ${chalk_1.default.cyan('proxy-cmd url http://ip:port')}`);
 /**
  * Set or show NO_PROXY config
+ * eg: proxy-cmd np localhost,127.0.0.1
  */
 commander_1.program
     .command('np')

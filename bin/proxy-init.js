@@ -73,10 +73,11 @@ const proxyInit = () => {
         }
         else {
             const pwPs1 = (0, fs_extra_1.readFileSync)(aliasPs1T, 'utf-8');
+            // Init pwPs1
             if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
                 (0, fs_extra_1.writeFileSync)(aliasPs1T, `${pwPs1}\n${(0, fs_extra_1.readFileSync)(aliasPs1S, 'utf-8')}`);
             }
-            // Set NO_PROXY
+            // Add NO_PROXY
             else {
                 if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
                     const pwPs1New = pwPs1
