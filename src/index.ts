@@ -29,6 +29,7 @@ program.version(pkg.version).option('-v, --version', 'output the version number'
 
 /**
  * Init proxy-cmd
+ * eg: proxy-cmd init http://127.0.0.1:8234 localhost,127.0.0.1
  */
 program
   .command('init')
@@ -37,6 +38,7 @@ program
 
 /**
  * Set or show proxy target url
+ * eg: proxy-cmd url http://127.0.0.1:8234
  */
 program
   .command('url')
@@ -45,6 +47,7 @@ program
 
 /**
  * Set or show NO_PROXY config
+ * eg: proxy-cmd np localhost,127.0.0.1
  */
 program
   .command('np')
