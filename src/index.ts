@@ -10,7 +10,7 @@ import { proxySet } from './proxy-set'
 import { proxyDel } from './proxy-del'
 
 const description = `\
-  ${chalk.green('Proxy switcher')}
+  ${chalk.green('A proxy env variables switcher')}
     Init proxy-cmd: ${chalk.cyan('proxy-cmd init')}
     Init proxy-cmd with url: ${chalk.cyan('proxy-cmd init http://ip:port')}
     Set proxy env vars in context process: ${chalk.cyan('proxy-on')}

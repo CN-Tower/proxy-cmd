@@ -1,6 +1,6 @@
 # PROXY-CMD
 
-Toggle proxy environments (HTTP_PROXY and HTTPS_PROXY) in command line.
+Toggle proxy env variables (HTTP_PROXY and HTTPS_PROXY) in command line.
 
 [![npm](https://img.shields.io/npm/v/proxy-cmd.svg)](https://www.npmjs.com/package/proxy-cmd)
 
@@ -20,22 +20,22 @@ Press `Win + R`, input "cmd", then press `Ctrl + Shift + Enter`, open cmd as adm
 # Init proxy
 proxy-cmd init 'http://127.0.0.1:7890'
 
-# Set current process proxy env variables
+# Set proxy env variables in context process
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Del current process proxy env variables
+# Del proxy env variables in context process
 proxy-off
 
 # Set global proxy env variables, needs administrator privileges
-# Needs restart the terminal after running this command
+# Needs restart the terminal after running this command!!!
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-cmd set
 
 # Del global proxy env variables, needs administrator privileges
-# Needs restart the terminal after running this command
+# Needs restart the terminal after running this command!!!
 proxy-cmd del
 
 # Show proxy target url
@@ -62,22 +62,22 @@ Run the following commands in terminal
 # Init proxy
 sudo proxy-cmd init 'http://127.0.0.1:7890'
 
-# Set current process proxy env variables, should source .zshrc and .bashrc first
+# Set proxy env variables in context process, should source .zshrc or .bashrc first
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Del current process proxy env variables, should source .zshrc and .bashrc first
+# Del proxy env variables in context process, should source .zshrc or .bashrc first
 proxy-off
 
-# Set global proxy env variables, needs administrator privileges
-# Needs restart the terminal after running this command
+# Set global proxy env variables
+# Needs restart the terminal after running this command!!!
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 sudo proxy-cmd set
 
-# Del global proxy env variables, needs administrator privileges
-# Needs restart the terminal after running this command
+# Del global proxy env variables
+# Needs restart the terminal after running this command!!!
 sudo proxy-cmd del
 
 # Enable proxy-cmd alias
