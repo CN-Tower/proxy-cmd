@@ -42,19 +42,19 @@ const proxySet = () => {
             const wtAliasInRcFile = (rcFile) => {
                 (0, fs_extra_1.ensureFileSync)(rcFile);
                 let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
-                if (rcTpl.match(/HTTP_PROXY/)) {
+                if (rcTpl.match(/^\s*#?\s*export HTTP_PROXY/m)) {
                     rcTpl = rcTpl.replace(/^\s*#?\s*export HTTP_PROXY\s*=\s*.*/mg, `export HTTP_PROXY="${purl}"`);
                 }
                 else {
                     rcTpl = `${rcTpl}\nexport HTTP_PROXY="${purl}"`;
                 }
-                if (rcTpl.match(/HTTPS_PROXY/)) {
+                if (rcTpl.match(/^\s*#?\s*export HTTPS_PROXY/m)) {
                     rcTpl = rcTpl.replace(/^\s*#?\s*export HTTPS_PROXY\s*=\s*.*/mg, `export HTTPS_PROXY="${purl}"`);
                 }
                 else {
                     rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${purl}"`;
                 }
-                if (rcTpl.match(/NO_PROXY/)) {
+                if (rcTpl.match(/^\s*#?\s*export NO_PROXY/m)) {
                     rcTpl = rcTpl.replace(/^\s*#?\s*export NO_PROXY\s*=\s*.*/mg, `export NO_PROXY="${nopx}"`);
                 }
                 else {

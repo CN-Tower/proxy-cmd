@@ -13,15 +13,15 @@ const description = `\
   ${chalk.green('Proxy switcher')}
     Init proxy-cmd: ${chalk.cyan('proxy-cmd init')}
     Init proxy-cmd with url: ${chalk.cyan('proxy-cmd init http://ip:port')}
+    Set proxy env vars in context process: ${chalk.cyan('proxy-on')}
+    Del proxy env vars in context process: ${chalk.cyan('proxy-off')}
+    Set global proxy env variables: ${chalk.cyan('proxy-cmd set')}
+    Del global proxy env variables: ${chalk.cyan('proxy-cmd del')}
     Set proxy target url: ${chalk.cyan('proxy-cmd url http://ip:port')}
     Show proxy target url: ${chalk.cyan('proxy-cmd url')}
     Set NO_PROXY config: ${chalk.cyan('proxy-cmd np localhost,127.0.0.1')}
     Show NO_PROXY config: ${chalk.cyan('proxy-cmd np')}
     Delte NO_PROXY config: ${chalk.cyan('proxy-cmd np del')}
-    Set global proxy environments: ${chalk.cyan('proxy-cmd set')}
-    Del global proxy environments: ${chalk.cyan('proxy-cmd del')}
-    Set current process proxy environments: ${chalk.cyan('proxy-on')}
-    Del current process proxy environments: ${chalk.cyan('proxy-off')}
   
     GitHub：${chalk.cyan('https://github.com/CN-Tower/proxy-cmd')}`
 
@@ -35,6 +35,22 @@ program
   .command('init')
   .action(() => proxyInit())
   .description(`Init proxy-cmd: ${chalk.cyan('proxy-cmd init')}`)
+
+/**
+ * Set global proxy environments
+ */
+program
+  .command('set')
+  .action(() => proxySet())
+  .description(`Set global proxy environments: ${chalk.cyan('proxy-cmd set')}`)
+
+/**
+ * Del global proxy environments
+ */
+program
+  .command('del')
+  .action(() => proxyDel())
+  .description(`Del global proxy environments: ${chalk.cyan('proxy-cmd del')}`)
 
 /**
  * Set or show proxy target url
@@ -53,21 +69,5 @@ program
   .command('np')
   .action(() => noProxy())
   .description(`Set or show NO_PROXY config: ${chalk.cyan('proxy-cmd np localhost,127.0.0.1')}`)
-
-/**
- * Set global proxy environments
- */
-program
-  .command('set')
-  .action(() => proxySet())
-  .description(`Set global proxy environments: ${chalk.cyan('proxy-cmd set')}`)
-
-/**
- * Del global proxy environments
- */
-program
-  .command('del')
-  .action(() => proxyDel())
-  .description(`Del global proxy environments: ${chalk.cyan('proxy-cmd del')}`)
 
 program.parse(process.argv)
