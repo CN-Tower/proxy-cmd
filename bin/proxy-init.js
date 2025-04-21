@@ -112,7 +112,7 @@ const proxyInit = () => {
                 rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, (mt) => `${mt}\nexport PROXY_NOC='${nopx}'`);
             }
             // Set alias proxy-on
-            const cmdOn = `alias proxy-on="export HTTP_PROXY='$PROXY_URL' && export HTTPS_PROXY='$PROXY_URL' && export NO_PROXY='$PROXY_NOC'"`;
+            const cmdOn = `alias proxy-on="export http_proxy='$PROXY_URL' && export https_proxy='$PROXY_URL' && export no_proxy='$PROXY_NOC'"`;
             if (rcTpl.match(/^\s*alias proxy-on/gm)) {
                 rcTpl = rcTpl.replace(/^\s*alias proxy-on.*$/gm, cmdOn);
             }
@@ -120,7 +120,7 @@ const proxyInit = () => {
                 rcTpl = `${rcTpl}\n${cmdOn}`;
             }
             // Set alias proxy-off
-            const cmdOff = `alias proxy-off="unset HTTP_PROXY && unset HTTPS_PROXY && unset NO_PROXY"`;
+            const cmdOff = `alias proxy-off="unset http_proxy && unset https_proxy && unset no_proxy"`;
             if (rcTpl.match(/^\s*alias proxy-off/gm)) {
                 rcTpl = rcTpl.replace(/^\s*alias proxy-off.*$/gm, cmdOff);
             }

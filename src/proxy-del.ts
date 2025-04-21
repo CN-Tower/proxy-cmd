@@ -57,13 +57,13 @@ export const proxyDel = () => {
     const wtAliasInRcFile = (rcFile: string) => {
       ensureFileSync(rcFile)
       let rc = readFileSync(rcFile, 'utf-8')
-      if (rc.match(/^\s*export (HTTP_PROXY|HTTPS_PROXY|NO_PROXY)/m)) {
-        if (rc.match(/^\s*export HTTPS?_PROXY/m)) {
-          rc = rc.replace(/^\s*(export HTTPS?_PROXY\s*=\s*.*)/mg, '# $1')
+      if (rc.match(/^\s*export (http_proxy|https_proxy|no_proxy)/im)) {
+        if (rc.match(/^\s*export https?_proxy/im)) {
+          rc = rc.replace(/^\s*(export https?_proxy\s*=\s*.*)/img, '# $1')
           writeFileSync(rcFile, rc)
         }
-        if (rc.match(/^\s*export NO_PROXY/m)) {
-          writeFileSync(rcFile, rc.replace(/^\s*(export NO_PROXY\s*=\s*.*)/mg, '# $1'))
+        if (rc.match(/^\s*export no_proxy/im)) {
+          writeFileSync(rcFile, rc.replace(/^\s*(export no_proxy\s*=\s*.*)/img, '# $1'))
         }
         try {
           execSync(`type srouce > /dev/null 2>&1 && source ${rcFile}`, { stdio: 'inherit' })

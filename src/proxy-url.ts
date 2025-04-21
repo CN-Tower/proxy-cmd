@@ -38,15 +38,15 @@ export const proxyUrl = () => {
         } else {
           rcTpl = `${rcTpl}\nexport PROXY_URL='${url}'`
         }
-        if (rcTpl.match(/HTTP_PROXY/)) {
-          rcTpl = rcTpl.replace(/^\s*(#?\s*)export HTTP_PROXY\s*=\s*.*/mg, `$1export HTTP_PROXY="${url}"`)
+        if (rcTpl.match(/^\s*#?\s*http_proxy/im)) {
+          rcTpl = rcTpl.replace(/^\s*(#?\s*)export http_proxy\s*=\s*.*/img, `$1export http_proxy="${url}"`)
         } else {
-          rcTpl = `${rcTpl}\nexport HTTP_PROXY="${url}"`
+          rcTpl = `${rcTpl}\nexport http_proxy="${url}"`
         }
-        if (rcTpl.match(/HTTPS_PROXY/)) {
-          rcTpl = rcTpl.replace(/^\s*(#?\s*)export HTTPS_PROXY\s*=\s*.*/mg, `$1export HTTPS_PROXY="${url}"`)
+        if (rcTpl.match(/^\s*#?\s*https_proxy/im)) {
+          rcTpl = rcTpl.replace(/^\s*(#?\s*)export https_proxy\s*=\s*.*/img, `$1export https_proxy="${url}"`)
         } else {
-          rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${url}"`
+          rcTpl = `${rcTpl}\nexport https_proxy="${url}"`
         }
         writeFileSync(rcFile, rcTpl)
         try {

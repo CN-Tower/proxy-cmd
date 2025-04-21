@@ -42,23 +42,23 @@ const proxySet = () => {
             const wtAliasInRcFile = (rcFile) => {
                 (0, fs_extra_1.ensureFileSync)(rcFile);
                 let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
-                if (rcTpl.match(/^\s*#?\s*export HTTP_PROXY/m)) {
-                    rcTpl = rcTpl.replace(/^\s*#?\s*export HTTP_PROXY\s*=\s*.*/mg, `export HTTP_PROXY="${purl}"`);
+                if (rcTpl.match(/^\s*#?\s*export http_proxy/im)) {
+                    rcTpl = rcTpl.replace(/^\s*#?\s*export http_proxy\s*=\s*.*/img, `export http_proxy="${purl}"`);
                 }
                 else {
-                    rcTpl = `${rcTpl}\nexport HTTP_PROXY="${purl}"`;
+                    rcTpl = `${rcTpl}\nexport http_proxy="${purl}"`;
                 }
-                if (rcTpl.match(/^\s*#?\s*export HTTPS_PROXY/m)) {
-                    rcTpl = rcTpl.replace(/^\s*#?\s*export HTTPS_PROXY\s*=\s*.*/mg, `export HTTPS_PROXY="${purl}"`);
-                }
-                else {
-                    rcTpl = `${rcTpl}\nexport HTTPS_PROXY="${purl}"`;
-                }
-                if (rcTpl.match(/^\s*#?\s*export NO_PROXY/m)) {
-                    rcTpl = rcTpl.replace(/^\s*#?\s*export NO_PROXY\s*=\s*.*/mg, `export NO_PROXY="${nopx}"`);
+                if (rcTpl.match(/^\s*#?\s*export https_proxy/im)) {
+                    rcTpl = rcTpl.replace(/^\s*#?\s*export https_proxy\s*=\s*.*/img, `export https_proxy="${purl}"`);
                 }
                 else {
-                    rcTpl = `${rcTpl}\nexport NO_PROXY="${nopx}"`;
+                    rcTpl = `${rcTpl}\nexport https_proxy="${purl}"`;
+                }
+                if (rcTpl.match(/^\s*#?\s*export no_proxy/im)) {
+                    rcTpl = rcTpl.replace(/^\s*#?\s*export no_proxy\s*=\s*.*/img, `export no_proxy="${nopx}"`);
+                }
+                else {
+                    rcTpl = `${rcTpl}\nexport no_proxy="${nopx}"`;
                 }
                 (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
                 try {

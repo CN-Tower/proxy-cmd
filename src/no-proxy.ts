@@ -41,10 +41,10 @@ export const noProxy = () => {
         } else {
           rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, (mt) => `${mt}\nexport PROXY_NOC='${nopx}'`)
         }
-        if (rcTpl.match(/NO_PROXY/)) {
-          rcTpl = rcTpl.replace(/^\s*(#?\s*)export NO_PROXY\s*=\s*.*/mg, `$1export NO_PROXY="${nopx}"`)
+        if (rcTpl.match(/^\s*#?\s*export no_proxy/im)) {
+          rcTpl = rcTpl.replace(/^\s*(#?\s*)export no_proxy\s*=\s*.*/img, `$1export no_proxy="${nopx}"`)
         } else {
-          rcTpl = `${rcTpl}\nexport NO_PROXY="${nopx}"`
+          rcTpl = `${rcTpl}\nexport no_proxy="${nopx}"`
         }
         writeFileSync(rcFile, rcTpl)
         try {

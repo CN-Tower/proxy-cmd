@@ -13,13 +13,13 @@ const no_proxy_1 = require("./no-proxy");
 const proxy_set_1 = require("./proxy-set");
 const proxy_del_1 = require("./proxy-del");
 const description = `\
-  ${chalk_1.default.green('Proxy switcher')}
+  ${chalk_1.default.green('A proxy env variables switcher')}
     Init proxy-cmd: ${chalk_1.default.cyan('proxy-cmd init')}
     Init proxy-cmd with url: ${chalk_1.default.cyan('proxy-cmd init http://ip:port')}
-    Set current process proxy environments: ${chalk_1.default.cyan('proxy-on')}
-    Del current process proxy environments: ${chalk_1.default.cyan('proxy-off')}
-    Set global proxy environments: ${chalk_1.default.cyan('proxy-cmd set')}
-    Del global proxy environments: ${chalk_1.default.cyan('proxy-cmd del')}
+    Set proxy env vars in context process: ${chalk_1.default.cyan('proxy-on')}
+    Del proxy env vars in context process: ${chalk_1.default.cyan('proxy-off')}
+    Set global proxy env variables: ${chalk_1.default.cyan('proxy-cmd set')}
+    Del global proxy env variables: ${chalk_1.default.cyan('proxy-cmd del')}
     Set proxy target url: ${chalk_1.default.cyan('proxy-cmd url http://ip:port')}
     Show proxy target url: ${chalk_1.default.cyan('proxy-cmd url')}
     Set NO_PROXY config: ${chalk_1.default.cyan('proxy-cmd np localhost,127.0.0.1')}
