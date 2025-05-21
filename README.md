@@ -1,10 +1,14 @@
 # PROXY-CMD
 
-Toggle proxy env variables (HTTP_PROXY and HTTPS_PROXY) in command line.
+Toggle proxy env variables (`http_proxy`, `https_proxy` and `no_proxy`) in command line.
 
 [![npm](https://img.shields.io/npm/v/proxy-cmd.svg)](https://www.npmjs.com/package/proxy-cmd)
 
-## Install
+## Language
+
+English | [简体中文](./README_zh-CN.md)
+
+## Install it
 
 ```bash
 npm i -g proxy-cmd
@@ -17,41 +21,41 @@ npm i -g proxy-cmd
 Press `Win + R`, input "cmd", then press `Ctrl + Shift + Enter`, open cmd as administrator
 
 ```bash
-# Init proxy
-proxy-cmd init 'http://127.0.0.1:7890'
+# Init proxy-cmd
+proxy init 'http://127.0.0.1:8234'
 
-# Set proxy env variables in context process
+# Set proxy env variables in current terminal, should init first
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
 proxy-on
 
-# Del proxy env variables in context process
+# Del proxy env variables in current terminal, should init first
 proxy-off
 
 # Set global proxy env variables, needs administrator privileges
 # Needs restart the terminal after running this command!!!
 # HTTP_PROXY=http://127.0.0.1:8234
 # HTTPS_PROXY=http://127.0.0.1:8234
-proxy-cmd set
+proxy set
 
 # Del global proxy env variables, needs administrator privileges
 # Needs restart the terminal after running this command!!!
-proxy-cmd del
+proxy del
 
-# Show proxy target url
-proxy-cmd url
+# Show proxy url
+proxy url
 
-# Change proxy target url
-proxy-cmd url 'http://127.0.0.1:8234'
+# Change proxy url
+proxy url 'http://127.0.0.1:7890'
 
 # Show NO_PROXY config
-proxy-cmd np
+proxy np
 
 # Change NO_PROXY config
-proxy-cmd np 'localhost,127.0.0.1'
+proxy np 'localhost,127.0.0.1'
 
 # Delete NO_PROXY config
-proxy-cmd np del
+proxy np del
 ```
 
 ### MacOS or Linux
@@ -59,44 +63,39 @@ proxy-cmd np del
 Run the following commands in terminal
 
 ```bash
-# Init proxy
-sudo proxy-cmd init 'http://127.0.0.1:7890'
+# Init proxy-cmd
+sudo proxy init 'http://127.0.0.1:8234'
 
-# Set proxy env variables in context process, should source .zshrc or .bashrc first
-# HTTP_PROXY=http://127.0.0.1:8234
-# HTTPS_PROXY=http://127.0.0.1:8234
+# Set proxy env variables in current terminal, should init first
+# http_proxy=http://127.0.0.1:8234
+# https_proxy=http://127.0.0.1:8234
 proxy-on
 
-# Del proxy env variables in context process, should source .zshrc or .bashrc first
+# Del proxy env variables in current terminal, should init first
 proxy-off
 
 # Set global proxy env variables
 # Needs restart the terminal after running this command!!!
-# HTTP_PROXY=http://127.0.0.1:8234
-# HTTPS_PROXY=http://127.0.0.1:8234
-sudo proxy-cmd set
+# http_proxy=http://127.0.0.1:8234
+# https_proxy=http://127.0.0.1:8234
+sudo proxy set
 
 # Del global proxy env variables
 # Needs restart the terminal after running this command!!!
-sudo proxy-cmd del
+sudo proxy del
 
-# Enable proxy-cmd alias
-sudo source ~/.bashrc
-# MacOs only
-sudo source ~/.zshrc
+# Show proxy url
+sudo proxy url
 
-# Show proxy target url
-sudo proxy-cmd url
+# Change proxy url
+sudo proxy url 'http://127.0.0.1:7890'
 
-# Change proxy target url
-sudo proxy-cmd url 'http://127.0.0.1:8234'
+# Show no_proxy config
+sudo proxy np
 
-# Show NO_PROXY config
-sudo proxy-cmd np
+# Change no_proxy config
+sudo proxy np 'localhost,127.0.0.1'
 
-# Change NO_PROXY config
-sudo proxy-cmd np 'localhost,127.0.0.1'
-
-# Delete NO_PROXY config
-sudo proxy-cmd np del
+# Delete no_proxy config
+sudo proxy np del
 ```
