@@ -18,9 +18,9 @@ const noProxy = () => {
     const noProxyFile = (0, path_1.join)(proxyCmd, '.no-proxy');
     (0, fs_extra_1.ensureFileSync)(noProxyFile);
     let [x, cmd, n, noProxy] = process.argv;
-    if (x === 'proxy-cmd') {
+    x = (0, path_1.basename)(x);
+    if (x === 'proxy-cmd' || x === 'proxy')
         noProxy = n;
-    }
     // Set NO_PROXY config
     if (noProxy) {
         const nopx = noProxy === 'del' ? '' : noProxy;

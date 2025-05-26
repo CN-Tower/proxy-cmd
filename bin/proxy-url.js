@@ -11,15 +11,20 @@ const fs_extra_1 = require("fs-extra");
 const os_1 = __importDefault(require("os"));
 const chalk_1 = __importDefault(require("chalk"));
 /**
- * Set or show proxy target url
+ * Set or show proxy url
  */
-const proxyUrl = () => {
+const proxyUrl = (url = '') => {
     const proxyCmd = (0, path_1.join)(os_1.default.homedir(), 'proxy-cmd');
     const pxUrlFile = (0, path_1.join)(proxyCmd, '.proxy-url');
     (0, fs_extra_1.ensureFileSync)(pxUrlFile);
-    let [x, cmd, u, url] = process.argv;
-    if (x === 'proxy-cmd')
-        url = u;
+    // If no url is provided, read from command line arguments
+    if (!url) {
+        let [x, cmd, u, u2] = process.argv;
+        x = (0, path_1.basename)(x);
+        if (x === 'proxy-cmd' || x === 'proxy')
+            u2 = u;
+        url = u2;
+    }
     // Set proxy url
     if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
         (0, fs_extra_1.writeFileSync)(pxUrlFile, url);

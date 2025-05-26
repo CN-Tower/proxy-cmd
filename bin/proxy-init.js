@@ -23,7 +23,8 @@ const proxyInit = () => {
     let purl = (0, fs_extra_1.readFileSync)(proxyUrlFile, 'utf-8');
     let nopx = (0, fs_extra_1.readFileSync)(noProxyFile, 'utf-8');
     let [x, cmd, init, url, noProxy] = process.argv;
-    if (x === 'proxy-cmd') {
+    x = (0, path_1.basename)(x);
+    if (x === 'proxy-cmd' || x === 'proxy') {
         noProxy = url;
         url = init;
     }

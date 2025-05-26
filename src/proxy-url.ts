@@ -1,22 +1,26 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process'
-import { join } from 'path'
+import { join, basename } from 'path'
 import { ensureFileSync, writeFileSync, readFileSync } from 'fs-extra'
 import os from 'os'
 import chalk from 'chalk'
 
 /**
- * Set or show proxy target url
+ * Set or show proxy url
  */
-export const proxyUrl = () => {
+export const proxyUrl = (url = '') => {
   const proxyCmd = join(os.homedir(), 'proxy-cmd')
   const pxUrlFile = join(proxyCmd, '.proxy-url')
   ensureFileSync(pxUrlFile)
   
-  let [x, cmd, u, url] = process.argv
-  if (x === 'proxy-cmd') url = u
-  
+  // If no url is provided, read from command line arguments
+  if (!url) {
+    let [x, cmd, u, u2] = process.argv
+    x = basename(x)
+    if (x === 'proxy-cmd' || x === 'proxy') u2 = u
+    url = u2
+  }
   // Set proxy url
   if (url && url.match(/^https?:\/\/[\d.:]+$/gm)) {
     writeFileSync(pxUrlFile, url)

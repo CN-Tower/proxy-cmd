@@ -9,6 +9,7 @@ const commander_1 = require("commander");
 const chalk_1 = __importDefault(require("chalk"));
 const proxy_init_1 = require("./proxy-init");
 const proxy_url_1 = require("./proxy-url");
+const proxy_port_1 = require("./proxy-port");
 const no_proxy_1 = require("./no-proxy");
 const proxy_set_1 = require("./proxy-set");
 const proxy_del_1 = require("./proxy-del");
@@ -21,8 +22,9 @@ ${chalk_1.default.green('proxy-cmd is a proxy environment variables switcher.\n'
   > Del proxy env vars in current terminal: ${chalk_1.default.cyan('proxy-off')}
   >         Set global proxy env variables: ${chalk_1.default.cyan('proxy set')}
   >         Del global proxy env variables: ${chalk_1.default.cyan('proxy del')}
-  >                        Reset proxy url: ${chalk_1.default.cyan('proxy url http://127.0.0.1:7890')}
   >                         Show proxy url: ${chalk_1.default.cyan('proxy url')}
+  >                          Set proxy url: ${chalk_1.default.cyan('proxy url http://127.0.0.1:7890')}
+  >                  Change proxy url port: ${chalk_1.default.cyan('proxy p 8899')}
   >                    Set no_proxy config: ${chalk_1.default.cyan('proxy np localhost,127.0.0.1')}
   >                   Show no_proxy config: ${chalk_1.default.cyan('proxy np')}
   >                  Delte no_proxy config: ${chalk_1.default.cyan('proxy np del')}
@@ -52,13 +54,21 @@ commander_1.program
     .action(() => (0, proxy_del_1.proxyDel)())
     .description(`Del global proxy environments: ${chalk_1.default.cyan('proxy del')}`);
 /**
- * Set or show proxy target url
+ * Set or show proxy url
  * eg: proxy url http://127.0.0.1:8234
  */
 commander_1.program
     .command('url')
     .action(() => (0, proxy_url_1.proxyUrl)())
     .description(`Set or Show proxy url: ${chalk_1.default.cyan('proxy url http://127.0.0.1:8234')}`);
+/**
+ * Set or show proxy port
+ * eg: proxy p 8899
+ */
+commander_1.program
+    .command('p')
+    .action(() => (0, proxy_port_1.proxyPort)())
+    .description(`Set or Show proxy port: ${chalk_1.default.cyan('proxy p 8899')}`);
 /**
  * Set or show NO_PROXY config
  * eg: proxy np localhost,127.0.0.1

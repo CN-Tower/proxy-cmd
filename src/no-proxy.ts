@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process'
-import { join } from 'path'
+import { join, basename } from 'path'
 import { ensureFileSync, writeFileSync, readFileSync } from 'fs-extra'
 import os from 'os'
 import chalk from 'chalk'
@@ -13,11 +13,10 @@ export const noProxy = () => {
   const proxyCmd = join(os.homedir(), 'proxy-cmd')
   const noProxyFile = join(proxyCmd, '.no-proxy')
   ensureFileSync(noProxyFile)
-  
+
   let [x, cmd, n, noProxy] = process.argv
-  if (x === 'proxy-cmd') {
-    noProxy = n
-  }
+  x = basename(x)
+  if (x === 'proxy-cmd' || x === 'proxy') noProxy = n
   
   // Set NO_PROXY config
   if (noProxy) {

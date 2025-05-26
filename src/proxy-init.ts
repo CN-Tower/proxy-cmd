@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process'
-import { join } from 'path'
+import { join, basename } from 'path'
 import {
   copyFileSync,
   ensureDirSync,
@@ -28,7 +28,8 @@ export const proxyInit = () => {
   let purl = readFileSync(proxyUrlFile, 'utf-8')
   let nopx = readFileSync(noProxyFile, 'utf-8')
   let [x, cmd, init, url, noProxy] = process.argv
-  if (x === 'proxy-cmd') {
+  x = basename(x)
+  if (x === 'proxy-cmd' || x === 'proxy') {
     noProxy = url
     url = init
   }
