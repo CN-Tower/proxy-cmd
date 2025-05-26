@@ -102,14 +102,15 @@ export const proxyInit = () => {
       ensureFileSync(rcFile)
       let rcTpl = readFileSync(rcFile, 'utf-8')
       // Set PROXY_URL
-      if (rcTpl.match(/^(export\s*)?PROXY_URL\s*=.*$/gm)) {
-        rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, `export PROXY_URL='${purl}'`)
+      if (rcTpl.match(/^(export\s*)?PROXY_URL\s*=.*$/igm)) {
+        rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/igm, `export PROXY_URL='${purl}'`)
       } else {
-        rcTpl = `${rcTpl}\nexport PROXY_URL='${purl}'`
+        if (rcTpl && !rcTpl.startsWith('\n')) rcTpl = `${rcTpl}\n`
+        rcTpl = `${rcTpl}export PROXY_URL='${purl}'`
       }
       // Set PROXY_NOC
-      if (rcTpl.match(/^(export\s*)?PROXY_NOC\s*=.*$/gm)) {
-        rcTpl = rcTpl.replace(/^(export\s*)?PROXY_NOC\s*=.*$/gm, `export PROXY_NOC='${nopx}'`)
+      if (rcTpl.match(/^(export\s*)?PROXY_NOC\s*=.*$/igm)) {
+        rcTpl = rcTpl.replace(/^(export\s*)?PROXY_NOC\s*=.*$/igm, `export PROXY_NOC='${nopx}'`)
       } else {
         rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, (mt) => `${mt}\nexport PROXY_NOC='${nopx}'`)
       }

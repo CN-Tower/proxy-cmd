@@ -47,7 +47,7 @@ proxy url
 proxy url 'http://127.0.0.1:7890'
 
 # 修改代理URL端口
-proxy p 8899
+proxy port 8899
 
 # 显示 NO_PROXY 设置
 proxy np
@@ -90,7 +90,7 @@ sudo proxy url
 sudo proxy url 'http://127.0.0.1:7890'
 
 # 修改代理URL端口
-proxy p 8899
+proxy port 8899
 
 # 显示 no_proxy 设置
 sudo proxy np

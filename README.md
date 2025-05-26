@@ -49,7 +49,7 @@ proxy url
 proxy url 'http://127.0.0.1:7890'
 
 # Change proxy url port
-proxy p 8899
+proxy port 8899
 
 # Show NO_PROXY config
 proxy np
@@ -94,7 +94,7 @@ sudo proxy url
 sudo proxy url 'http://127.0.0.1:7890'
 
 # Change proxy url port
-proxy p 8899
+proxy port 8899
 
 # Show no_proxy config
 sudo proxy np

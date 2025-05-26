@@ -21,7 +21,7 @@ ${chalk.green('proxy-cmd is a proxy environment variables switcher.\n')}
   >         Del global proxy env variables: ${chalk.cyan('proxy del')}
   >                         Show proxy url: ${chalk.cyan('proxy url')}
   >                          Set proxy url: ${chalk.cyan('proxy url http://127.0.0.1:7890')}
-  >                  Change proxy url port: ${chalk.cyan('proxy p 8899')}
+  >                  Change proxy url port: ${chalk.cyan('proxy port 8899')}
   >                    Set no_proxy config: ${chalk.cyan('proxy np localhost,127.0.0.1')}
   >                   Show no_proxy config: ${chalk.cyan('proxy np')}
   >                  Delte no_proxy config: ${chalk.cyan('proxy np del')}
@@ -66,12 +66,12 @@ program
 
 /**
  * Set or show proxy port
- * eg: proxy p 8899
+ * eg: proxy port 8899
  */
 program
-  .command('p')
+  .command('port')
   .action(() => proxyPort())
-  .description(`Set or Show proxy port: ${chalk.cyan('proxy p 8899')}`)
+  .description(`Set or Show proxy port: ${chalk.cyan('proxy port 8899')}`)
 
 /**
  * Set or show NO_PROXY config

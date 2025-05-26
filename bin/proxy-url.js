@@ -42,23 +42,19 @@ const proxyUrl = (url = '') => {
                 (0, fs_extra_1.ensureFileSync)(rcFile);
                 let rcTpl = (0, fs_extra_1.readFileSync)(rcFile, 'utf-8');
                 // Set PROXY_URL
-                if (rcTpl.match(/^(export\s*)?PROXY_URL\s*=.*$/gm)) {
-                    rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/gm, `export PROXY_URL='${url}'`);
+                if (rcTpl.match(/^(export\s*)?PROXY_URL\s*=.*$/igm)) {
+                    rcTpl = rcTpl.replace(/^(export\s*)?PROXY_URL\s*=.*$/igm, `export PROXY_URL='${url}'`);
                 }
                 else {
-                    rcTpl = `${rcTpl}\nexport PROXY_URL='${url}'`;
+                    if (rcTpl && !rcTpl.startsWith('\n'))
+                        rcTpl = `${rcTpl}\n`;
+                    rcTpl = `${rcTpl}export PROXY_URL='${url}'`;
                 }
-                if (rcTpl.match(/^\s*#?\s*http_proxy/im)) {
+                if (rcTpl.match(/^\s*#?\s*export http_proxy/igm)) {
                     rcTpl = rcTpl.replace(/^\s*(#?\s*)export http_proxy\s*=\s*.*/img, `$1export http_proxy="${url}"`);
                 }
-                else {
-                    rcTpl = `${rcTpl}\nexport http_proxy="${url}"`;
-                }
-                if (rcTpl.match(/^\s*#?\s*https_proxy/im)) {
+                if (rcTpl.match(/^\s*#?\s*export https_proxy/igm)) {
                     rcTpl = rcTpl.replace(/^\s*(#?\s*)export https_proxy\s*=\s*.*/img, `$1export https_proxy="${url}"`);
-                }
-                else {
-                    rcTpl = `${rcTpl}\nexport https_proxy="${url}"`;
                 }
                 (0, fs_extra_1.writeFileSync)(rcFile, rcTpl);
                 try {
