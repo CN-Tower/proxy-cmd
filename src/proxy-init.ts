@@ -70,31 +70,38 @@ export const proxyInit = () => {
     } catch {}
     // Set powershell alias
     const aliasPs1S = join(__dirname, 'Microsoft.PowerShell_profile.ps1')
-    const aliasPs1D = join(os.homedir(), 'Documents/WindowsPowerShell')
-    ensureDirSync(aliasPs1D)
-    const aliasPs1T = join(aliasPs1D, 'Microsoft.PowerShell_profile.ps1')
-    if (!existsSync(aliasPs1T)) {
-      copyFileSync(aliasPs1S, aliasPs1T)
-    } else {
-      const pwPs1 = readFileSync(aliasPs1T, 'utf-8')
-      // Init pwPs1
-      if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
-        writeFileSync(aliasPs1T, `${pwPs1}\n${readFileSync(aliasPs1S, 'utf-8')}`)
-      }
-      // Add NO_PROXY
-      else {
-        if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
-          const pwPs1New = pwPs1
-            .replace(/\$env:HTTPS_PROXY = \$env:PROXY_URL/, (mt) => {
-              return `${mt}\n  $env:NO_PROXY = $env:PROXY_NOC`
-            })
-            .replace(/Remove-Item Env:HTTPS_PROXY/, (mt) => {
-              return `${mt}\n  Remove-Item Env:NO_PROXY`
-            })
-          writeFileSync(aliasPs1T, pwPs1New)
+    const setupPowerShellProfile = (profilePath: string) => {
+      ensureDirSync(profilePath)
+      const aliasPs1T = join(profilePath, 'Microsoft.PowerShell_profile.ps1')
+      if (!existsSync(aliasPs1T)) {
+        copyFileSync(aliasPs1S, aliasPs1T)
+      } else {
+        const pwPs1 = readFileSync(aliasPs1T, 'utf-8')
+        // Init pwPs1
+        if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
+          writeFileSync(aliasPs1T, `${pwPs1}\n${readFileSync(aliasPs1S, 'utf-8')}`)
+        }
+        // Add NO_PROXY
+        else {
+          if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
+            const pwPs1New = pwPs1
+              .replace(/\$env:HTTPS_PROXY = \$env:PROXY_URL/, (mt) => {
+                return `${mt}\n  $env:NO_PROXY = $env:PROXY_NOC`
+              })
+              .replace(/Remove-Item Env:HTTPS_PROXY/, (mt) => {
+                return `${mt}\n  Remove-Item Env:NO_PROXY`
+              })
+            writeFileSync(aliasPs1T, pwPs1New)
+          }
         }
       }
     }
+    // PowerShell 5.x (Windows PowerShell)
+    const aliasPs1D_Win = join(os.homedir(), 'Documents/WindowsPowerShell')
+    setupPowerShellProfile(aliasPs1D_Win)
+    // PowerShell 7.x (PowerShell Core)
+    const aliasPs1D_Core = join(os.homedir(), 'Documents/PowerShell')
+    setupPowerShellProfile(aliasPs1D_Core)
   }
   // MacOS or Linux
   else {

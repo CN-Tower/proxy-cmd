@@ -66,32 +66,39 @@ const proxyInit = () => {
         catch { }
         // Set powershell alias
         const aliasPs1S = (0, path_1.join)(__dirname, 'Microsoft.PowerShell_profile.ps1');
-        const aliasPs1D = (0, path_1.join)(os_1.default.homedir(), 'Documents/WindowsPowerShell');
-        (0, fs_extra_1.ensureDirSync)(aliasPs1D);
-        const aliasPs1T = (0, path_1.join)(aliasPs1D, 'Microsoft.PowerShell_profile.ps1');
-        if (!(0, fs_extra_1.existsSync)(aliasPs1T)) {
-            (0, fs_extra_1.copyFileSync)(aliasPs1S, aliasPs1T);
-        }
-        else {
-            const pwPs1 = (0, fs_extra_1.readFileSync)(aliasPs1T, 'utf-8');
-            // Init pwPs1
-            if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
-                (0, fs_extra_1.writeFileSync)(aliasPs1T, `${pwPs1}\n${(0, fs_extra_1.readFileSync)(aliasPs1S, 'utf-8')}`);
+        const setupPowerShellProfile = (profilePath) => {
+            (0, fs_extra_1.ensureDirSync)(profilePath);
+            const aliasPs1T = (0, path_1.join)(profilePath, 'Microsoft.PowerShell_profile.ps1');
+            if (!(0, fs_extra_1.existsSync)(aliasPs1T)) {
+                (0, fs_extra_1.copyFileSync)(aliasPs1S, aliasPs1T);
             }
-            // Add NO_PROXY
             else {
-                if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
-                    const pwPs1New = pwPs1
-                        .replace(/\$env:HTTPS_PROXY = \$env:PROXY_URL/, (mt) => {
-                        return `${mt}\n  $env:NO_PROXY = $env:PROXY_NOC`;
-                    })
-                        .replace(/Remove-Item Env:HTTPS_PROXY/, (mt) => {
-                        return `${mt}\n  Remove-Item Env:NO_PROXY`;
-                    });
-                    (0, fs_extra_1.writeFileSync)(aliasPs1T, pwPs1New);
+                const pwPs1 = (0, fs_extra_1.readFileSync)(aliasPs1T, 'utf-8');
+                // Init pwPs1
+                if (!pwPs1.match(/Set-Alias proxy-off proxyOff/)) {
+                    (0, fs_extra_1.writeFileSync)(aliasPs1T, `${pwPs1}\n${(0, fs_extra_1.readFileSync)(aliasPs1S, 'utf-8')}`);
+                }
+                // Add NO_PROXY
+                else {
+                    if (!pwPs1.match(/\$env:NO_PROXY = \$env:PROXY_NOC/)) {
+                        const pwPs1New = pwPs1
+                            .replace(/\$env:HTTPS_PROXY = \$env:PROXY_URL/, (mt) => {
+                            return `${mt}\n  $env:NO_PROXY = $env:PROXY_NOC`;
+                        })
+                            .replace(/Remove-Item Env:HTTPS_PROXY/, (mt) => {
+                            return `${mt}\n  Remove-Item Env:NO_PROXY`;
+                        });
+                        (0, fs_extra_1.writeFileSync)(aliasPs1T, pwPs1New);
+                    }
                 }
             }
-        }
+        };
+        // PowerShell 5.x (Windows PowerShell)
+        const aliasPs1D_Win = (0, path_1.join)(os_1.default.homedir(), 'Documents/WindowsPowerShell');
+        setupPowerShellProfile(aliasPs1D_Win);
+        // PowerShell 7.x (PowerShell Core)
+        const aliasPs1D_Core = (0, path_1.join)(os_1.default.homedir(), 'Documents/PowerShell');
+        setupPowerShellProfile(aliasPs1D_Core);
     }
     // MacOS or Linux
     else {
